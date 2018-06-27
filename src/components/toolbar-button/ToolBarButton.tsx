@@ -2,12 +2,18 @@ import * as React from 'react';
 import './ToolBarButton.css';
 
 interface ToolBarButtonProps {
-    checked: boolean,
-    name: string
+  children: string
 }
 
-export class ToolBarButton extends React.Component<Partial<ToolBarButtonProps>> {
-    render() {
-        return <label><input type="checkbox" />{this.props.name}</label>
-    }
+export class ToolBarButton extends React.Component<ToolBarButtonProps> {
+
+  render() {
+    return (
+      <label className="toolbar-btn-label">
+        <input className="toolbar-btn-checkbox" type="checkbox" />
+        {this.props.children}
+      </label>
+    )
+  }
+  
 }

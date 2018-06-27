@@ -1,9 +1,11 @@
-label {
+.toolbar-btn-label {
+  margin: 10px 10px 10px 0px;
   font-size: 42px;
-  margin: 10px;
+  cursor: pointer;
 }
 
-input {
+.toolbar-btn-checkbox {
   width: 30px;
   height: 30px;
+  cursor: pointer;
 }

@@ -1,0 +1,8 @@
+.canvas {
+  position: relative;
+  box-shadow: 5px 3px lightgrey;
+}
+
+.hidden-image {
+  display: none;
+}
