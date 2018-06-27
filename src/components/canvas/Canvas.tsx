@@ -25,10 +25,23 @@ export class Canvas extends React.Component<CanvasProps> {
     }
   }
 
+  handleDataFromMask(state: any) {
+    //TODO change your imageSize in here
+  }
+
+  handleDataFromRuler(size: any) {
+    console.log(size)
+  }
+
   render(): React.ReactNode {
+    const maskSize = {
+      width: '500px',
+      height: '400px'
+    }
     return (
       <div>
         <canvas  className="canvas" ref="canvas" width={600} height={500} />
+        <CanvasMask canvasMaskCurrentState={this.handleDataFromMask} />
         <img className="hidden-image" ref="image" src={this.props.imgSrc} />
       </div>
     )

@@ -1,4 +1,4 @@
 .canvas-mask {
   position: absolute;
-  background-color: rgba(255,255,0,0.7);
+  border: 5px dotted yellow;
 }
