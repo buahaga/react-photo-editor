@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-declare let module: any;
 import { App } from './App';
+declare let module: any;
 
 ReactDOM.render(
   <App />,

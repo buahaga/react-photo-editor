@@ -13,8 +13,10 @@
   "author": "buahaga",
   "license": "ISC",
   "dependencies": {
+    "re-resizable": "^4.7.1",
     "react": "^16.3.2",
-    "react-dom": "^16.3.2"
+    "react-dom": "^16.3.2",
+    "react-resizable": "^1.7.5"
   },
   "devDependencies": {
     "@types/jest": "^23.1.1",
@@ -24,6 +26,7 @@
     "css-loader": "^0.28.11",
     "eslint": "^4.19.1",
     "eslint-config-react-app": "^2.1.0",
+    "eslint-loader": "^2.0.0",
     "eslint-plugin-flowtype": "^2.49.3",
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
@@ -35,7 +38,7 @@
     "ts-jest": "^22.4.6",
     "ts-loader": "^4.4.1",
     "typescript": "^2.8.3",
-    "typescript-eslint-parser": "^16.0.0",
+    "typescript-eslint-parser": "^16.0.1",
     "webpack": "^4.12.1",
     "webpack-cli": "^2.1.5",
     "webpack-dev-middleware": "^3.1.3",

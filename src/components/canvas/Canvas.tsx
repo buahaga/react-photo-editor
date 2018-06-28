@@ -4,16 +4,16 @@ import { CanvasMask } from '../canvas-mask/CanvasMask';
 import './Canvas.css';
 
 interface CanvasProps {
-  imgSrc: string,
-  imgWidth: number,
-  imgHeight: number
+  imgSrc: string;
+  imgWidth: number;
+  imgHeight: number;
 }
 
 export class Canvas extends React.Component<CanvasProps> {
 
   componentDidMount() {
     const canvas = (ReactDOM.findDOMNode(this.refs.canvas) as HTMLCanvasElement);
-    const ctx: CanvasRenderingContext2D = canvas.getContext("2d");
+    const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
     const image = (ReactDOM.findDOMNode(this.refs.image) as HTMLImageElement);
 
     image.onload = () => {
@@ -34,15 +34,12 @@ export class Canvas extends React.Component<CanvasProps> {
   }
 
   render(): React.ReactNode {
-    const maskSize = {
-      width: '500px',
-      height: '400px'
-    }
+
     return (
       <div>
         <canvas  className="canvas" ref="canvas" width={600} height={500} />
         <CanvasMask canvasMaskCurrentState={this.handleDataFromMask} />
-        <img className="hidden-image" ref="image" src={this.props.imgSrc} />
+        <img className="hidden-image" alt="" ref="image" src={this.props.imgSrc} />
       </div>
     )
   }

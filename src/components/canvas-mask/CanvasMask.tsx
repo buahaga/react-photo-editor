@@ -34,50 +34,52 @@ export class CanvasMask extends React.Component<CanvasMaskProps> {
   }
 
   onRulerMove = (evt: any) => {
-    //TODO should I specify ruler with argument?
-    const newWidth = `${parseInt(this.state.width) - 10}px`;
-    const newHeight = `${parseInt(this.state.height) - 10}px`;
-    const newTop = this.state.top + 10;
-    const newLeft = this.state.left + 10;
+    const prevWidth = parseInt(this.state.width);
+    const prevHeight = parseInt(this.state.height);
+    const prevTop = this.state.top;
+    const prevLeft = this.state.left;
+
+    let newWidth, newHeight, newTop, newLeft;
+    if (evt.clientX - prevTop < 15) {
+      newWidth = prevWidth - (evt.clientX - prevTop);
+      newHeight = prevHeight - (evt.clientY - prevLeft);
+      newTop = prevTop + prevWidth - newWidth;
+      newLeft = prevLeft + prevHeight - newHeight;
+    } else if (evt.clientX - prevTop > 15) {
+      newWidth = prevWidth - (prevWidth + prevLeft - evt.clientX);
+      newHeight = prevHeight - (prevHeight + prevTop - evt.clientY);
+      newTop = prevTop;
+      newLeft = prevLeft;
+    }
 
     this.setState({
-      width: newWidth,
-      height: newHeight,
+      width: `${newWidth}px`,
+      height: `${newHeight}px`,
       top: newTop,
       left: newLeft
     })
   }
 
   render() {
-    const MASK_BORDER = 10;
+    const { width, height, top, left } = this.state;
     const topLeft = {
-      top: this.state.top,
-      left: this.state.left,
-    };
-    const topRight = {
-      top: this.state.top,
-      left: this.state.left + parseInt(this.state.width) - MASK_BORDER,
+      top: top,
+      left: left,
     };
     const bottomRight = {
-      top: this.state.top + parseInt(this.state.height) - MASK_BORDER,
-      left: this.state.left + parseInt(this.state.width) - MASK_BORDER,
-    };
-    const bottomLeft = {
-      top: this.state.top + parseInt(this.state.height) - MASK_BORDER,
-      left: this.state.left,
+      top: top + parseInt(height),
+      left: left + parseInt(width),
     };
 
     return (
       <React.Fragment>
-
         <div className="canvas-mask"
           onMouseDown={(evt) => this.onMouseDown(evt)}
           onChange={this.props.canvasMaskCurrentState(this.state)}
+          role="presentation"
           style={this.state}></div>
 
         <CanvasMaskRuler rulerStyle={topLeft} rulerPosition={this.onRulerMove} />
-        <CanvasMaskRuler rulerStyle={topRight} rulerPosition={this.onRulerMove} />
-        <CanvasMaskRuler rulerStyle={bottomLeft} rulerPosition={this.onRulerMove} />
         <CanvasMaskRuler rulerStyle={bottomRight} rulerPosition={this.onRulerMove} />
 
       </React.Fragment>

@@ -3,9 +3,10 @@ import './CanvasMaskRuler.css';
 
 interface CanvasMaskRulerProps {
   rulerStyle: {
+    //eslint-disable-next-line
     top: number;
     left: number;
-  }
+  };
   rulerPosition: Function;
 }
 

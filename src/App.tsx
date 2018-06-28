@@ -1,8 +1,6 @@
 import * as React from 'react';
-declare let module: any;
 import { ToolBar } from './components/toolbar/ToolBar';
 import { Canvas } from './components/canvas/Canvas';
-import { CanvasMask } from './components/canvas-mask/CanvasMask';
 import './App.css';
 
 export class App extends React.Component {
@@ -11,7 +9,7 @@ export class App extends React.Component {
     imgStyle: {
       imgWidth: 600,
       imgHeight: 500,
-      imgSrc: "https://popuppainting.com/wp-content/uploads/2017/05/Irises-by-Vincent-Van-Gogh.jpg",
+      imgSrc: 'https://popuppainting.com/wp-content/uploads/2017/05/Irises-by-Vincent-Van-Gogh.jpg',
     },
   }
 
