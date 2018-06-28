@@ -13,6 +13,7 @@
     "no-unused-vars": "warn",
     "no-undef": "warn",
     "quotes": [2, "single", { "avoidEscape": true }],
+    "jsx-a11y/label-has-for": 0,
     "radix": 0
   },
   "overrides": {

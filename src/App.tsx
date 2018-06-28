@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { ToolBar } from './components/toolbar/ToolBar';
 import { Canvas } from './components/canvas/Canvas';
 import './App.css';
 
@@ -24,8 +23,6 @@ export class App extends React.Component {
           imgHeight={imgHeight}
           imgSrc={imgSrc}>
         </Canvas>
-
-        <ToolBar />
 
       </React.Fragment>
     )

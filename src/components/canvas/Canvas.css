@@ -1,8 +1,16 @@
+.hidden-image {
+  display: none;
+}
+
 .canvas {
   position: relative;
   box-shadow: 5px 3px lightgrey;
 }
 
-.hidden-image {
-  display: none;
+.greyscale {
+  filter: grayscale(1);
+}
+
+.blur {
+  filter: blur(5px);
 }

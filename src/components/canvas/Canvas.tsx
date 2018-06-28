@@ -9,28 +9,55 @@ interface CanvasProps {
   imgHeight: number;
 }
 
+interface ImgParams {
+  startTop: number;
+  startLeft: number;
+  imgWidth: number;
+  imgHeight: number;
+  newTop: number;
+  newLeft: number;
+}
+
 export class Canvas extends React.Component<CanvasProps> {
 
+  canvas: HTMLCanvasElement;
+  image: HTMLImageElement;
+
   componentDidMount() {
-    const canvas = (ReactDOM.findDOMNode(this.refs.canvas) as HTMLCanvasElement);
-    const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
-    const image = (ReactDOM.findDOMNode(this.refs.image) as HTMLImageElement);
+    this.canvas = ReactDOM.findDOMNode(this.refs.canvas) as HTMLCanvasElement
+    this.image = ReactDOM.findDOMNode(this.refs.image) as HTMLImageElement;
+    const startImageParams = {
+      startTop: 0,
+      startLeft: 0,
+      imgWidth: parseInt('600px'),
+      imgHeight: parseInt('500px'),
+      newTop: 0,
+      newLeft: 0,
+    };
 
-    image.onload = () => {
-      ctx.drawImage(image,
-        0, 0, // start drowing image from top left
-        this.props.imgWidth, this.props.imgHeight, // new image size
-        0, 0, // top left of new image
-        this.props.imgWidth, this.props.imgHeight) // better equal to new image size
-    }
+    this.paintCanvas(startImageParams);
   }
 
-  handleDataFromMask(state: any) {
-    //TODO change your imageSize in here
+  paintCanvas = (imgParams: ImgParams) => {
+    const ctx: CanvasRenderingContext2D = this.canvas.getContext('2d');
+    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+      ctx.drawImage(this.image,
+        imgParams.startLeft, imgParams.startTop, // start drowing image from top left
+        imgParams.imgWidth, imgParams.imgHeight, // new image size
+        imgParams.newLeft, imgParams.newTop, // top left of new image
+        this.canvas.width, this.canvas.height) // better equal to canvas size
   }
 
-  handleDataFromRuler(size: any) {
-    console.log(size)
+  handleDataFromMask = (maskPosition: any) => {
+    const newImageParams = {
+      startTop: maskPosition.top - 5,
+      startLeft: maskPosition.left - 5,
+      imgWidth: parseInt(maskPosition.width),
+      imgHeight: parseInt(maskPosition.height),
+      newTop: 0,
+      newLeft: 0,
+    };
+    this.paintCanvas(newImageParams);
   }
 
   render(): React.ReactNode {

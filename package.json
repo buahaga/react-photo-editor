@@ -13,10 +13,8 @@
   "author": "buahaga",
   "license": "ISC",
   "dependencies": {
-    "re-resizable": "^4.7.1",
     "react": "^16.3.2",
-    "react-dom": "^16.3.2",
-    "react-resizable": "^1.7.5"
+    "react-dom": "^16.3.2"
   },
   "devDependencies": {
     "@types/jest": "^23.1.1",

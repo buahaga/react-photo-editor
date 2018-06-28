@@ -3,16 +3,14 @@ import './ToolBarButton.css';
 
 interface ToolBarButtonProps {
   children: string;
+  onClick: Function;
 }
 
-export class ToolBarButton extends React.Component<ToolBarButtonProps> {
+export class ToolBarButton extends React.Component<Partial<ToolBarButtonProps>> {
 
   render() {
     return (
-      <label className="toolbar-btn-label" htmlFor="checkbox">
-        <input className="toolbar-btn-checkbox" id="checkbox" type="checkbox" />
-        {this.props.children}
-      </label>
+      <button onClick={() => {this.props.onClick()}} className="toolbar-btn">{this.props.children}</button>
     )
   }
 
