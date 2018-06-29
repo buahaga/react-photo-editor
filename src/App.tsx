@@ -1,8 +1,11 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { rootAction } from './redux/actions/rootAction';
 import { Canvas } from './components/canvas/Canvas';
 import './App.css';
 
-export class App extends React.Component {
+
+export class App extends React.Component<any> {
 
   state = {
     imgStyle: {
@@ -12,20 +15,39 @@ export class App extends React.Component {
     },
   }
 
+  // componentDidMount() {
+  //   this.props.rootAction(11)
+  // }
+
   render(): React.ReactNode {
     const { imgWidth, imgHeight, imgSrc } = this.state.imgStyle;
 
     return (
-      <React.Fragment>
-
+      <div>
         <Canvas
           imgWidth={imgWidth}
           imgHeight={imgHeight}
           imgSrc={imgSrc}>
         </Canvas>
-
-      </React.Fragment>
+      </div>
     )
   }
 
 }
+
+function mapStateToProps(state: any) {
+  return {
+    store: state
+  };
+}
+
+function mapDispatchToProps(dispatch: any) {
+  return {
+    rootAction: (value: any) => dispatch(rootAction(value))
+  };
+}
+
+export default connect<any>(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);

@@ -13,8 +13,12 @@
   "author": "buahaga",
   "license": "ISC",
   "dependencies": {
+    "@types/react-redux": "^6.0.3",
     "react": "^16.3.2",
-    "react-dom": "^16.3.2"
+    "react-dom": "^16.3.2",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.0",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@types/jest": "^23.1.1",
