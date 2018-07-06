@@ -2,17 +2,16 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { configStore } from './redux/store/configStore';
-import { App } from './App';
-const store = configStore();
+import App from './App';
+
 declare let module: any;
+if (module.hot) {
+  module.hot.accept();
+}
 
 ReactDOM.render(
-  <Provider store={store}>
+  <Provider store={configStore()}>
     <App />
   </Provider>,
   document.getElementById('root')
 );
-
-if (module.hot) {
-  module.hot.accept();
-}

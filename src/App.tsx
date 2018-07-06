@@ -1,23 +1,47 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { rootAction } from './redux/actions/rootAction';
+import { imageAction } from './redux/actions/imageAction';
 import { Canvas } from './components/canvas/Canvas';
+import { FileUploader } from './components/file-uploader/FileUploader';
 import './App.css';
 
+interface DispatchFromProps {
+  dispatchImgSrc: (value: string) => void;
+}
 
-export class App extends React.Component<any> {
+interface StateFromProps {
+  imageReducer: {
+    imgUrl: string
+  };
+}
+
+class App extends React.Component<any> {
 
   state = {
     imgStyle: {
       imgWidth: 600,
       imgHeight: 500,
-      imgSrc: 'https://popuppainting.com/wp-content/uploads/2017/05/Irises-by-Vincent-Van-Gogh.jpg',
-    },
+      imgSrc: '',
+    }
   }
 
-  // componentDidMount() {
-  //   this.props.rootAction(11)
-  // }
+  componentDidMount() {
+    this.setState({
+      imgStyle: {
+        imgSrc: this.props.imgUrl
+      }
+    });
+  }
+
+  componentDidUpdate(prevProps: any) {
+    if (this.props.imgUrl !== prevProps.imgUrl) {
+      this.setState({
+        imgStyle: {
+          imgSrc: this.props.imgUrl
+        }
+      });
+    }
+  }
 
   render(): React.ReactNode {
     const { imgWidth, imgHeight, imgSrc } = this.state.imgStyle;
@@ -27,27 +51,28 @@ export class App extends React.Component<any> {
         <Canvas
           imgWidth={imgWidth}
           imgHeight={imgHeight}
-          imgSrc={imgSrc}>
-        </Canvas>
+          imgSrc={imgSrc}
+        ></Canvas>
+        <FileUploader uploadToCanvas={this.props.dispatchImgSrc} />
       </div>
-    )
+    );
   }
 
 }
 
-function mapStateToProps(state: any) {
+function mapStateToProps(state: StateFromProps) {
   return {
-    store: state
+    imgUrl: state.imageReducer.imgUrl
   };
 }
 
-function mapDispatchToProps(dispatch: any) {
+function mapDispatchToProps(dispatch: any): DispatchFromProps {
   return {
-    rootAction: (value: any) => dispatch(rootAction(value))
+    dispatchImgSrc: (url: string) => dispatch(imageAction(url))
   };
 }
 
-export default connect<any>(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(App);

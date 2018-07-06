@@ -40,10 +40,10 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'src', 'index.html')
-    }),
-    new webpack.HotModuleReplacementPlugin()
+    })
   ],
   performance: {
     hints: false

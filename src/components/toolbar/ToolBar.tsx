@@ -23,9 +23,9 @@ export class ToolBar extends React.Component<ToolBarProps> {
       <div className="toolbar">
         <ToolBarButton onClick={this.blurImage}>Blur</ToolBarButton>
         <ToolBarButton onClick={this.greyScaleImage}>Black&White</ToolBarButton>
-        <ToolBarButton onClick={this.props.cropImage}>Crop</ToolBarButton>
+        <ToolBarButton onClick={this.props.cropImage}>Start/Crop</ToolBarButton>
       </div>
-    )
+    );
   }
 
 }

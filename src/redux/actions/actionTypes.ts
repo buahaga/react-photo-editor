@@ -1,1 +1,1 @@
-export const ROOT_ACTION = 'ROOT_ACTION';
+export const IMAGE_ACTION = 'IMAGE_ACTION';

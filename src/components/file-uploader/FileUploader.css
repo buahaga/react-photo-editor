@@ -1,0 +1,8 @@
+.file-uploader {
+  margin: 10px 10px;
+}
+
+.file-uploader-choose,
+.file-uploader-upload {
+  cursor: pointer;
+}
