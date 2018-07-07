@@ -1,5 +1,5 @@
 .canvas-mask {
   position: absolute;
-  border: 5px dotted yellow;
+  border: 3px dashed orange;
   cursor: move;
 }

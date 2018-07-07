@@ -25,8 +25,8 @@ export class CropArea extends React.Component<CropAreaProps> {
   state = {
     width: '600px',
     height: '500px',
-    top: 5,
-    left: 5,
+    top: 10,
+    left: 10,
   }
 
   onCropAreaDrag = (coords: Coords) => {
@@ -62,8 +62,8 @@ export class CropArea extends React.Component<CropAreaProps> {
     this.setState({
       width: '600px',
       height: '500px',
-      top: 5,
-      left: 5,
+      top: 10,
+      left: 10,
     });
   }
 

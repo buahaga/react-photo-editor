@@ -4,7 +4,7 @@
 
 .canvas {
   position: relative;
-  box-shadow: 5px 3px lightgrey;
+  border: 5px ridge lightgrey;
 }
 
 .greyscale {
