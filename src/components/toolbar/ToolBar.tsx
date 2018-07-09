@@ -3,41 +3,22 @@ import { ToolBarButton } from '../toolbar-button/ToolBarButton';
 import './ToolBar.css';
 
 interface ToolBarProps {
-  cropImage: Function;
+  isButtonActive: boolean;
+  blurImage: () => void;
+  greyScaleImage: () => void;
+  cropImage: () => void;
+  saveImage: () => void;
 }
 
 export class ToolBar extends React.Component<ToolBarProps> {
 
-  greyScaleImage() {
-    const canvas = document.querySelector('canvas');
-    canvas.classList.toggle('greyscale');
-  }
-
-  blurImage() {
-    const canvas = document.querySelector('canvas');
-    canvas.classList.toggle('blur');
-  }
-
-  saveImage() {
-    const canvas = document.querySelector('canvas');
-    canvas.toBlob((blob) => {
-      const newImg = document.createElement('img'),
-      url = URL.createObjectURL(blob);
-      newImg.onload = () => {
-        URL.revokeObjectURL(url);
-      };
-      newImg.src = url;
-      document.body.appendChild(newImg);
-    });
-  }
-
-  render(): React.ReactNode {
+  public render(): React.ReactNode {
     return (
       <div className="toolbar">
-        <ToolBarButton onClick={this.blurImage}>Blur</ToolBarButton>
-        <ToolBarButton onClick={this.greyScaleImage}>Black&White</ToolBarButton>
-        <ToolBarButton onClick={this.props.cropImage}>Crop</ToolBarButton>
-        <ToolBarButton onClick={this.saveImage}>Save</ToolBarButton>
+        <ToolBarButton disabled={this.props.isButtonActive} onClick={this.props.blurImage}>Blur</ToolBarButton>
+        <ToolBarButton disabled={this.props.isButtonActive} onClick={this.props.greyScaleImage}>Black&White</ToolBarButton>
+        <ToolBarButton disabled={this.props.isButtonActive} onClick={this.props.cropImage}>Crop</ToolBarButton>
+        <ToolBarButton disabled={this.props.isButtonActive} onClick={this.props.saveImage}>Save</ToolBarButton>
       </div>
     );
   }

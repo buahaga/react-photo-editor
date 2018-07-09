@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Draggable, Coords } from '../draggable/Draggable';
+import { Draggable } from '../draggable/Draggable';
+import { Coords } from '../../interfaces/coords';
 import './CropAreaRuler.css';
 
 interface CropAreaRulerProps {
@@ -7,12 +8,12 @@ interface CropAreaRulerProps {
   style: {
     top: number;
     left: number;
-  }
+  };
 }
 
 export class CropAreaRuler extends React.Component<CropAreaRulerProps> {
 
-  render() {
+  public render() {
     return (
       <Draggable onDrag={this.props.onDrag}>
         <div className="test-ruler" style={this.props.style}></div>

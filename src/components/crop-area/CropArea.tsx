@@ -1,73 +1,69 @@
 import * as React from 'react';
 import { ToolBar } from '../toolbar/ToolBar';
 import { CropAreaRuler } from '../crop-area-ruler/CropAreaRuler';
-import { Draggable, Coords } from '../draggable/Draggable';
+import { Draggable } from '../draggable/Draggable';
+import { Coords } from '../../interfaces/coords';
 import './CropArea.css';
 
 interface CropAreaProps {
-  onImageCrop: (rectangle: Rectangle) => void;
+  onImageBlur: () => void;
+  onImageGreyScale: () => void;
+  onImageCrop: (rectangle: CropAreaState) => void;
+  onImageSave: () => void;
+  size: {
+    width: number;
+    height: number;
+  };
+  isToolBarActive: boolean;
 }
 
-interface Rectangle {
+interface CropAreaState {
   top: number;
   left: number;
   width: string;
   height: string;
 }
 
-export class CropArea extends React.Component<CropAreaProps> {
+export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
 
-  constructor(props: CropAreaProps) {
+  public state: CropAreaState;
+
+  public constructor(props: CropAreaProps) {
     super(props);
     this.cropImage = this.cropImage.bind(this);
+    this.state = {
+      width: `${this.props.size.width}px`,
+      height: `${this.props.size.height}px`,
+      top: 10,
+      left: 10,
+    };
   }
 
-  state = {
-    width: '600px',
-    height: '500px',
-    top: 10,
-    left: 10,
-  }
-
-  onCropAreaDrag = (coords: Coords) => {
+  private onCropAreaDrag = (coords: Coords) => {
     this.setState({
       top: coords.deltaY,
       left: coords.deltaX
     });
   }
 
-  onCropAreaDragEnd = (coords: Coords) => {
-    this.setState({
-      top: coords.deltaY,
-      left: coords.deltaX
-    });
-  }
-
-  onRulerDrag = (coords: Coords) => {
+  private onRulerDrag = (coords: Coords) => {
     this.setState({
       width: `${coords.x - this.state.left}px`,
       height: `${coords.y - this.state.top}px`
     });
   }
 
-  onRulerDragEnd = (coords: Coords) => {
-    this.setState({
-      width: `${coords.x - this.state.left}px`,
-      height: `${coords.y - this.state.top}px`
-    });
-  }
-
-  cropImage = () => {
+  private cropImage = () => {
     this.props.onImageCrop(this.state);
     this.setState({
-      width: '600px',
-      height: '500px',
+      width: `${this.props.size.width}px`,
+      height: `${this.props.size.height}px`,
       top: 10,
       left: 10,
     });
   }
 
-  render() {
+  public render() {
     const rulerStyle = {
       top: parseInt(this.state.height) + this.state.top,
       left: parseInt(this.state.width) + this.state.left
@@ -84,7 +80,11 @@ export class CropArea extends React.Component<CropAreaProps> {
           style={rulerStyle}
           onDrag={(coords: Coords) => this.onRulerDrag(coords)} />
 
-        <ToolBar cropImage={this.cropImage} />
+        <ToolBar isButtonActive={this.props.isToolBarActive}
+          blurImage={this.props.onImageBlur}
+          greyScaleImage={this.props.onImageGreyScale}
+          cropImage={this.cropImage}
+          saveImage={this.props.onImageSave} />
       </React.Fragment>
     );
   }

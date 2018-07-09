@@ -1,10 +1,9 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { fireBase } from '../../firebase/firebaseConfig';
+import { Image } from '../../interfaces/image';
 import './FileUploader.css';
 
 interface FileUploaderProps {
-  uploadToCanvas: (url: string) => void;
+  uploadToCanvas: (url: Partial<Image>) => void;
 }
 
 interface FileUploaderState {
@@ -13,7 +12,10 @@ interface FileUploaderState {
 }
 
 export class FileUploader extends React.Component<FileUploaderProps, FileUploaderState> {
-  constructor(props: FileUploaderProps) {
+
+  private dropZone: HTMLInputElement;
+
+  public constructor(props: FileUploaderProps) {
     super(props);
     this.state = {
       selectedFile: {},
@@ -21,14 +23,7 @@ export class FileUploader extends React.Component<FileUploaderProps, FileUploade
     };
   }
 
-  dragOverHandeler = () => {
-    const dropZone = ReactDOM.findDOMNode(this.refs.dropzone) as HTMLDivElement;
-    const dropZoneUnActive = () => dropZone.classList.remove('active');
-    dropZone.classList.add('active');
-    dropZone.addEventListener('dragleave', dropZoneUnActive, false);
-  }
-
-  onFileChange = (fileList: FileList) => {
+  private onFileChange = (fileList: FileList) => {
     this.setState({
       selectedFile: fileList[0]
     }, () => {
@@ -36,22 +31,23 @@ export class FileUploader extends React.Component<FileUploaderProps, FileUploade
     });
   }
 
-  uploadFile = () => {
-    if (this.state.selectedFile) {
-      const storageRef: any = fireBase.storage().ref(`/${this.state.selectedFile.name}`);
-      storageRef.put(this.state.selectedFile).on('state_changed',
-        (snapshot: any) => {
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          this.setState({ uploadProgress: progress });
-        }, (err: any) => {
-          throw new Error(err);
-        }, () => {
-          storageRef.getDownloadURL().then((url: string) => this.props.uploadToCanvas(url));
-        });
+  private uploadFile = () => {
+    if (this.state.selectedFile.name) {
+      this.props.uploadToCanvas(this.state.selectedFile);
     }
   }
 
-  render() {
+  private isAreaHighLighted = () => {
+    this.dropZone.classList.add('active');
+    this.dropZone.addEventListener('dragleave', () => {
+      this.dropZone.classList.remove('active');
+    });
+    this.dropZone.addEventListener('drop', () => {
+      this.dropZone.classList.remove('active');
+    });
+  }
+
+  public render() {
     return (
       <form className="file-uploader">
         <label>
@@ -59,9 +55,9 @@ export class FileUploader extends React.Component<FileUploaderProps, FileUploade
           <div className="upload-progress">
             <div style={{ width: `${this.state.uploadProgress}%` }} className="upload-progress-bar"></div>
           </div>
-          <input className="drop-area" ref="dropzone"
+          <input className="drop-area" ref={(dropzone) => this.dropZone = dropzone}
             type="file" accept="image/jpg,image/jpeg,image/png"
-            onDragOver={this.dragOverHandeler}
+            onDragEnter={this.isAreaHighLighted}
             onChange={(evt) => this.onFileChange(evt.target.files)} />
         </label>
       </form>

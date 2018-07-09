@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Coords } from '../../interfaces/coords';
 
 interface DraggableProps {
   onDragStart?: (obj: Partial<Coords>) => void;
@@ -7,24 +8,18 @@ interface DraggableProps {
   children: JSX.Element;
 }
 
-export interface Coords {
-  x: number;
-  y: number;
-  deltaX: number;
-  deltaY: number;
-}
-
 export class Draggable extends React.Component<Partial<DraggableProps>> {
-  elem: HTMLElement;
-  start: Partial<Coords>;
 
-  static defaultProps: Partial<DraggableProps> = {
-    onDragStart: () => {},
-    onDrag: () => {},
-    onDragEnd: () => {},
+  private elem: HTMLElement;
+  private start: Partial<Coords>;
+
+  public static defaultProps: Partial<DraggableProps> = {
+    onDragStart: () => { },
+    onDrag: () => { },
+    onDragEnd: () => { },
   };
 
-  constructor(props: DraggableProps) {
+  public constructor(props: DraggableProps) {
     super(props);
     this.start = {
       x: 0,
@@ -32,15 +27,15 @@ export class Draggable extends React.Component<Partial<DraggableProps>> {
     };
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     this.elem.addEventListener('mousedown', this.onMouseDown);
   }
 
-  componentWillUnmount() {
+  public componentWillUnmount() {
     this.elem.removeEventListener('mousedown', this.onMouseDown);
   }
 
-  onMouseDown = (evt: MouseEvent) => {
+  private onMouseDown = (evt: MouseEvent) => {
     document.addEventListener('mousemove', this.onDrag);
     document.addEventListener('mouseup', this.onMouseUp);
     this.start = {
@@ -50,7 +45,7 @@ export class Draggable extends React.Component<Partial<DraggableProps>> {
     this.props.onDragStart(this.start);
   };
 
-  onDrag = (evt: MouseEvent) => {
+  private onDrag = (evt: MouseEvent) => {
     evt.preventDefault();
     const currentPosition = {
       x: evt.clientX,
@@ -61,12 +56,12 @@ export class Draggable extends React.Component<Partial<DraggableProps>> {
     this.props.onDrag(currentPosition);
   };
 
-  onMouseUp = () => {
+  private onMouseUp = () => {
     document.removeEventListener('mousemove', this.onDrag);
     document.removeEventListener('mouseup', this.onMouseUp);
   };
 
-  render() {
+  public render() {
     return (
       <div className="draggable" ref={elem => this.elem = elem}>
         {this.props.children}

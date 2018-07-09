@@ -3,14 +3,15 @@ import './ToolBarButton.css';
 
 interface ToolBarButtonProps {
   children: string;
-  onClick: Function;
+  onClick: () => void;
+  disabled: boolean;
 }
 
 export class ToolBarButton extends React.Component<Partial<ToolBarButtonProps>> {
 
-  render() {
+  public render() {
     return (
-      <button onClick={() => {this.props.onClick()}} className="toolbar-btn">{this.props.children}</button>
+      <button disabled={!this.props.disabled} onClick={() => {this.props.onClick()}} className="toolbar-btn">{this.props.children}</button>
     );
   }
 

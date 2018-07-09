@@ -3,55 +3,50 @@ import { connect } from 'react-redux';
 import { imageAction } from './redux/actions/imageAction';
 import { Canvas } from './components/canvas/Canvas';
 import { FileUploader } from './components/file-uploader/FileUploader';
+import { Image } from './interfaces/image';
 import './App.css';
 
 interface DispatchFromProps {
-  dispatchImgSrc: (value: string) => void;
+  dispatchImgSrc: (value: Partial<Image>) => void;
 }
 
 interface StateFromProps {
   imageReducer: {
-    imgUrl: string
+    image: Partial<Image>;
   };
 }
 
+interface AppState {
+  image: Partial<Image>;
+}
+
+//TODO get rid of <any>
 class App extends React.Component<any> {
 
-  state = {
-    imgStyle: {
-      imgWidth: 600,
-      imgHeight: 500,
-      imgSrc: '',
-    }
+  public state: any;
+
+  public constructor(props: any) {
+    super(props);
+    this.state = {
+      image: {}
+    };
   }
 
-  componentDidMount() {
-    this.setState({
-      imgStyle: {
-        imgSrc: this.props.imgUrl
-      }
-    });
-  }
-
-  componentDidUpdate(prevProps: any) {
-    if (this.props.imgUrl !== prevProps.imgUrl) {
+  public componentDidUpdate(prevProps: any) {
+    if (this.props.image.name !== prevProps.image.name) {
       this.setState({
-        imgStyle: {
-          imgSrc: this.props.imgUrl
-        }
+        image: this.props.image
       });
     }
   }
 
-  render(): React.ReactNode {
-    const { imgWidth, imgHeight, imgSrc } = this.state.imgStyle;
+  public render(): React.ReactNode {
+    const image = this.state.image;
 
     return (
       <div>
         <Canvas
-          imgWidth={imgWidth}
-          imgHeight={imgHeight}
-          imgSrc={imgSrc}
+          image={image}
         ></Canvas>
         <FileUploader uploadToCanvas={this.props.dispatchImgSrc} />
       </div>
@@ -62,13 +57,13 @@ class App extends React.Component<any> {
 
 function mapStateToProps(state: StateFromProps) {
   return {
-    imgUrl: state.imageReducer.imgUrl
+    image: state.imageReducer.image
   };
 }
 
 function mapDispatchToProps(dispatch: any): DispatchFromProps {
   return {
-    dispatchImgSrc: (url: string) => dispatch(imageAction(url))
+    dispatchImgSrc: (image: Partial<Image>) => dispatch(imageAction(image))
   };
 }
 
