@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ToolBar } from '../toolbar/ToolBar';
 import { CropAreaRuler } from '../crop-area-ruler/CropAreaRuler';
-import { Draggable } from '../draggable/Draggable';
+import { Draggable } from '../../HOC/draggable/Draggable';
 import { Coords } from '../../interfaces/coords';
 import './CropArea.css';
 

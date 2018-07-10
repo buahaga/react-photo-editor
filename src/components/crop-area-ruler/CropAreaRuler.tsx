@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Draggable } from '../draggable/Draggable';
+import { Draggable } from '../../HOC/draggable/Draggable';
 import { Coords } from '../../interfaces/coords';
 import './CropAreaRuler.css';
 

@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { configStore } from './redux/store/configStore';
-import App from './App';
+import App from './containers/App';
 
 declare let module: any;
 if (module.hot) {

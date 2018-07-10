@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { imageAction } from './redux/actions/imageAction';
-import { Canvas } from './components/canvas/Canvas';
-import { FileUploader } from './components/file-uploader/FileUploader';
-import { Image } from './interfaces/image';
+import { imageAction } from '../redux/actions/imageAction';
+import { Canvas } from './canvas/Canvas';
+import { FileUploader } from '../components/file-uploader/FileUploader';
+import { Image } from '../interfaces/image';
 import './App.css';
 
 interface DispatchFromProps {
@@ -16,21 +16,9 @@ interface StateFromProps {
   };
 }
 
-interface AppState {
-  image: Partial<Image>;
-}
-
-//TODO get rid of <any>
 class App extends React.Component<any> {
 
-  public state: any;
-
-  public constructor(props: any) {
-    super(props);
-    this.state = {
-      image: {}
-    };
-  }
+  public state: Partial<Image>;
 
   public componentDidUpdate(prevProps: any) {
     if (this.props.image.name !== prevProps.image.name) {
@@ -41,7 +29,7 @@ class App extends React.Component<any> {
   }
 
   public render(): React.ReactNode {
-    const image = this.state.image;
+    const image = this.state;
 
     return (
       <div>

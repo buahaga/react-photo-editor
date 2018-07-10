@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { CropArea } from '../crop-area/CropArea';
+import { CropArea } from '../../components/crop-area/CropArea';
 import { Image } from '../../interfaces/image';
 import './Canvas.css';
 
