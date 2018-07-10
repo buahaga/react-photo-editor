@@ -25,6 +25,7 @@
     "radix": 0,
     "typescript/explicit-function-return-type": "off",
     "typescript/member-ordering": "off",
+    "typescript/no-var-requires": "off",
     "allowExpressions": true,
     "require-jsdoc": ["warn", {
     "require": {

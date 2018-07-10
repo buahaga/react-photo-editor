@@ -13,20 +13,22 @@
   "author": "buahaga",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.18.0",
-    "firebase": "^5.2.0",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-redux": "^5.0.7",
     "redux": "^4.0.0"
   },
   "devDependencies": {
+    "@types/enzyme": "^3.1.11",
+    "@types/enzyme-adapter-react-16": "^1.0.2",
     "@types/jest": "^23.1.1",
     "@types/react": "^16.4.1",
     "@types/react-dom": "^16.0.6",
     "@types/react-redux": "^6.0.3",
     "babel-eslint": "^7.2.3",
     "css-loader": "^0.28.11",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.19.1",
     "eslint-config-react-app": "^2.1.0",
     "eslint-config-typescript": "^1.1.0",
@@ -37,6 +39,7 @@
     "eslint-plugin-react": "^7.10.0",
     "eslint-plugin-typescript": "^0.12.0",
     "html-webpack-plugin": "^3.2.0",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^23.2.0",
     "source-map-loader": "^0.2.3",
     "style-loader": "^0.21.0",
@@ -51,17 +54,21 @@
     "webpack-hot-middleware": "^2.22.2"
   },
   "jest": {
+    "setupFiles": [
+      "./jestconfig.js"
+    ],
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
+    },
+    "moduleNameMapper": {
+      ".*\\.css$": "identity-obj-proxy"
     },
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
     "moduleFileExtensions": [
       "ts",
       "tsx",
       "js",
-      "jsx",
-      "json",
-      "node"
+      "jsx"
     ]
   }
 }

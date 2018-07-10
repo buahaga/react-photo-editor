@@ -8,6 +8,7 @@ import './CropArea.css';
 interface CropAreaProps {
   onImageBlur: () => void;
   onImageGreyScale: () => void;
+  onImageColor: () => void;
   onImageCrop: (rectangle: CropAreaState) => void;
   onImageSave: () => void;
   size: {
@@ -83,6 +84,7 @@ export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
         <ToolBar isButtonActive={this.props.isToolBarActive}
           blurImage={this.props.onImageBlur}
           greyScaleImage={this.props.onImageGreyScale}
+          colorImage={this.props.onImageColor}
           cropImage={this.cropImage}
           saveImage={this.props.onImageSave} />
       </React.Fragment>

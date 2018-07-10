@@ -18,7 +18,14 @@ interface StateFromProps {
 
 class App extends React.Component<any> {
 
-  public state: Partial<Image>;
+  public state: any;
+
+  public constructor(props: any) {
+    super(props);
+    this.state = {
+      image: {}
+    };
+  }
 
   public componentDidUpdate(prevProps: any) {
     if (this.props.image.name !== prevProps.image.name) {
@@ -29,7 +36,7 @@ class App extends React.Component<any> {
   }
 
   public render(): React.ReactNode {
-    const image = this.state;
+    const image = this.state.image;
 
     return (
       <div>

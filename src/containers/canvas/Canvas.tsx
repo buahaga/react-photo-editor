@@ -66,9 +66,20 @@ export class Canvas extends React.Component<CanvasProps> {
     const pixels = imgData.data;
     for (let i = 0, n = pixels.length; i < n; i += 4) {
       const grayscale = pixels[i] * 0.3 + pixels[i + 1] * 0.59 + pixels[i + 2] * 0.11;
-      pixels[i] = grayscale;
-      pixels[i + 1] = grayscale;
-      pixels[i + 2] = grayscale;
+      pixels[i] = grayscale; // red
+      pixels[i + 1] = grayscale; // green
+      pixels[i + 2] = grayscale; // blue
+    }
+    this.ctx.putImageData(imgData, 0, 0);
+  }
+
+  private handleImageColor = () => {
+    const imgData = this.ctx.getImageData(0, 0, this.canvasSize.width, this.canvasSize.height);
+    const pixels = imgData.data;
+    for (var i = 0, n = pixels.length; i < n; i += 4) {
+      pixels[i] = pixels[i] * 2;
+      pixels[i + 1] = pixels[i + 1] * 2;
+      pixels[i + 2] = pixels[i + 2] * 2;
     }
     this.ctx.putImageData(imgData, 0, 0);
   }
@@ -80,7 +91,6 @@ export class Canvas extends React.Component<CanvasProps> {
       imgWidth: parseInt(cropAreaPosition.width),
       imgHeight: parseInt(cropAreaPosition.height),
     };
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.drawImage(this.image,
       imgParams.startLeft, imgParams.startTop, // start drowing image from top left
       imgParams.imgWidth, imgParams.imgHeight, // new image size
@@ -103,12 +113,15 @@ export class Canvas extends React.Component<CanvasProps> {
   public render(): React.ReactNode {
     return (
       <React.Fragment>
-        <canvas className="canvas" ref={(canvas) => this.canvas = canvas}
-          width={this.canvasSize.width} height={this.canvasSize.height} />
+        <canvas className="canvas"
+          ref={(canvas) => this.canvas = canvas}
+          width={this.canvasSize.width}
+          height={this.canvasSize.height} />
         <CropArea
           isToolBarActive={this.isToolBarActive}
           onImageBlur={this.handleImageBlur}
           onImageGreyScale={this.handleImageGreyScale}
+          onImageColor={this.handleImageColor}
           onImageCrop={this.handleImageCrop}
           onImageSave={this.handleImageSave}
           size={this.canvasSize} />
