@@ -21,13 +21,18 @@ interface CropAreaPosition {
 
 export class Canvas extends React.Component<CanvasProps> {
 
+  public state: CanvasSize;
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
   private image: HTMLImageElement;
   private isToolBarActive: boolean = false;
-  private canvasSize: CanvasSize = {
-    width: 600,
-    height: 500
+
+  public constructor(props: CanvasProps) {
+    super(props);
+    this.state = {
+      width: 600,
+      height: 500
+    };
   }
 
   public componentDidMount() {
@@ -37,12 +42,20 @@ export class Canvas extends React.Component<CanvasProps> {
   }
 
   public componentDidUpdate(prevProps: CanvasProps) {
-    this.isToolBarActive = true;
     if (this.props.image.name !== prevProps.image.name) {
       const image = new Image();
+      const drawImage = () => {
+        const imageWidth = (image.width > 600) ? 600 : image.width;
+        const imageHeight = (image.height > 100) ? Math.round(image.height / (image.width / imageWidth)) : image.height;
+        this.setState({
+          width: imageWidth,
+          height: imageHeight
+        });
+        this.ctx.drawImage(image, 0, 0, imageWidth, imageHeight);
+      };
       image.src = URL.createObjectURL(this.props.image);
       this.image = image;
-      const drawImage = () => this.ctx.drawImage(image, 0, 0);
+      this.isToolBarActive = true;
       image.onload = drawImage;
     }
   }
@@ -59,10 +72,11 @@ export class Canvas extends React.Component<CanvasProps> {
       }
     }
     this.ctx.globalAlpha = 1.0;
+    this.saveChanges();
   }
 
   private handleImageGreyScale = () => {
-    const imgData = this.ctx.getImageData(0, 0, this.canvasSize.width, this.canvasSize.height);
+    const imgData = this.ctx.getImageData(0, 0, this.state.width, this.state.height);
     const pixels = imgData.data;
     for (let i = 0, n = pixels.length; i < n; i += 4) {
       const grayscale = pixels[i] * 0.3 + pixels[i + 1] * 0.59 + pixels[i + 2] * 0.11;
@@ -71,10 +85,11 @@ export class Canvas extends React.Component<CanvasProps> {
       pixels[i + 2] = grayscale; // blue
     }
     this.ctx.putImageData(imgData, 0, 0);
+    this.saveChanges();
   }
 
   private handleImageColor = () => {
-    const imgData = this.ctx.getImageData(0, 0, this.canvasSize.width, this.canvasSize.height);
+    const imgData = this.ctx.getImageData(0, 0, this.state.width, this.state.height);
     const pixels = imgData.data;
     for (var i = 0, n = pixels.length; i < n; i += 4) {
       pixels[i] = pixels[i] * 2;
@@ -82,6 +97,7 @@ export class Canvas extends React.Component<CanvasProps> {
       pixels[i + 2] = pixels[i + 2] * 2;
     }
     this.ctx.putImageData(imgData, 0, 0);
+    this.saveChanges();
   }
 
   private handleImageCrop = (cropAreaPosition: CropAreaPosition) => {
@@ -95,7 +111,7 @@ export class Canvas extends React.Component<CanvasProps> {
       imgParams.startLeft, imgParams.startTop, // start drowing image from top left
       imgParams.imgWidth, imgParams.imgHeight, // new image size
       0, 0, // top left position of new image
-      this.canvasSize.width, this.canvasSize.height); // size of new image
+      this.state.width, this.state.height); // size of new image
   }
 
   private handleImageSave = () => {
@@ -110,13 +126,20 @@ export class Canvas extends React.Component<CanvasProps> {
     });
   }
 
+  private saveChanges = () => {
+    this.canvas.toBlob(() => {
+      const newImg = new Image();
+      this.image = newImg;
+    });
+  }
+
   public render(): React.ReactNode {
     return (
       <React.Fragment>
         <canvas className="canvas"
           ref={(canvas) => this.canvas = canvas}
-          width={this.canvasSize.width}
-          height={this.canvasSize.height} />
+          width={this.state.width}
+          height={this.state.height} />
         <CropArea
           isToolBarActive={this.isToolBarActive}
           onImageBlur={this.handleImageBlur}
@@ -124,7 +147,7 @@ export class Canvas extends React.Component<CanvasProps> {
           onImageColor={this.handleImageColor}
           onImageCrop={this.handleImageCrop}
           onImageSave={this.handleImageSave}
-          size={this.canvasSize} />
+          size={this.state} />
       </React.Fragment>
     );
   }

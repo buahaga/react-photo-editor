@@ -40,6 +40,15 @@ export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
     };
   }
 
+  public componentDidUpdate(prevProps: CropAreaProps) {
+    if (this.props.size.width !== prevProps.size.width || this.props.size.height !== prevProps.size.height) {
+      this.setState({
+        width: `${this.props.size.width}px`,
+        height: `${this.props.size.height}px`
+      });
+    }
+  }
+
   private onCropAreaDrag = (coords: Coords) => {
     this.setState({
       top: coords.deltaY,
