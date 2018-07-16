@@ -5,7 +5,11 @@
   "main": "webpack.config.js",
   "scripts": {
     "lint": "eslint src/**/*.tsx src/**/*.js",
-    "test": "jest",
+    "test": "jest ./test/*.spec.*",
+    "test:watch": "npm run test -- --watch",
+    "test:coverage": "npm run test -- --coverage",
+    "test:e2e": "jest ./test/e2e/*.test.*",
+    "test:e2e-debug": "DEBUG='true' npm run test:e2e",
     "build": "webpack",
     "start": "webpack-dev-server --watch --watch-poll"
   },
@@ -22,10 +26,14 @@
     "@types/enzyme": "^3.1.11",
     "@types/enzyme-adapter-react-16": "^1.0.2",
     "@types/jest": "^23.1.1",
+    "@types/puppeteer": "^1.5.0",
     "@types/react": "^16.4.1",
     "@types/react-dom": "^16.0.6",
     "@types/react-redux": "^6.0.3",
+    "babel-core": "^6.26.3",
     "babel-eslint": "^7.2.3",
+    "babel-jest": "^23.4.0",
+    "babel-preset-env": "^1.7.0",
     "css-loader": "^0.28.11",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
@@ -40,7 +48,9 @@
     "eslint-plugin-typescript": "^0.12.0",
     "html-webpack-plugin": "^3.2.0",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^23.2.0",
+    "jest": "^23.4.0",
+    "jest-canvas-mock": "^1.1.0",
+    "puppeteer": "^1.6.0",
     "source-map-loader": "^0.2.3",
     "style-loader": "^0.21.0",
     "ts-jest": "^22.4.6",
@@ -55,7 +65,8 @@
   },
   "jest": {
     "setupFiles": [
-      "./jestconfig.js"
+      "./jest_config.js",
+      "jest-canvas-mock"
     ],
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
@@ -68,7 +79,8 @@
       "ts",
       "tsx",
       "js",
-      "jsx"
+      "jsx",
+      "json"
     ]
   }
 }

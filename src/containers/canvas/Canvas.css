@@ -6,11 +6,3 @@
   position: relative;
   border: 5px ridge lightgrey;
 }
-
-.greyscale {
-  filter: grayscale(1);
-}
-
-.blur {
-  filter: blur(5px);
-}

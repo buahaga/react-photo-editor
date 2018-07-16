@@ -10,6 +10,7 @@ interface CropAreaProps {
   onImageGreyScale: () => void;
   onImageColor: () => void;
   onImageCrop: (rectangle: CropAreaState) => void;
+  onImageReset: () => void;
   onImageSave: () => void;
   size: {
     width: number;
@@ -74,6 +75,7 @@ export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
   }
 
   public render() {
+
     const rulerStyle = {
       top: parseInt(this.state.height) + this.state.top,
       left: parseInt(this.state.width) + this.state.left
@@ -83,7 +85,7 @@ export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
       <React.Fragment>
         <Draggable
           onDrag={(coords: Coords) => this.onCropAreaDrag(coords)}>
-          <div className="canvas-mask" role="presentation" style={this.state}></div>
+          <div className="crop-area" role="presentation" style={this.state}></div>
         </Draggable>
 
         <CropAreaRuler
@@ -95,6 +97,7 @@ export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
           greyScaleImage={this.props.onImageGreyScale}
           colorImage={this.props.onImageColor}
           cropImage={this.cropImage}
+          resetImage={this.props.onImageReset}
           saveImage={this.props.onImageSave} />
       </React.Fragment>
     );

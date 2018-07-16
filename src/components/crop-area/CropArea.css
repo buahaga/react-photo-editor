@@ -1,4 +1,4 @@
-.canvas-mask {
+.crop-area {
   position: absolute;
   border: 3px dashed orange;
   cursor: move;

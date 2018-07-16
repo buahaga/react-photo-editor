@@ -16,9 +16,13 @@ interface StateFromProps {
   };
 }
 
-class App extends React.Component<any> {
+interface AppState {
+  image: Partial<Image>;
+}
 
-  public state: any;
+export class App extends React.Component<any> {
+
+  public state: Partial<AppState>;
 
   public constructor(props: any) {
     super(props);
@@ -39,7 +43,7 @@ class App extends React.Component<any> {
     const image = this.state.image;
 
     return (
-      <div>
+      <div className="app">
         <Canvas
           image={image}
         ></Canvas>

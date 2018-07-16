@@ -10,6 +10,7 @@ interface CanvasProps {
 interface CanvasSize {
   width: number;
   height: number;
+  isToolBarActive: boolean;
 }
 
 interface CropAreaPosition {
@@ -21,17 +22,18 @@ interface CropAreaPosition {
 
 export class Canvas extends React.Component<CanvasProps> {
 
-  public state: CanvasSize;
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
   private image: HTMLImageElement;
-  private isToolBarActive: boolean = false;
+  private imageBackUp: HTMLImageElement;
+  public state: CanvasSize;
 
   public constructor(props: CanvasProps) {
     super(props);
     this.state = {
       width: 600,
-      height: 500
+      height: 500,
+      isToolBarActive: false
     };
   }
 
@@ -44,6 +46,7 @@ export class Canvas extends React.Component<CanvasProps> {
   public componentDidUpdate(prevProps: CanvasProps) {
     if (this.props.image.name !== prevProps.image.name) {
       const image = new Image();
+      image.src = URL.createObjectURL(this.props.image);
       const drawImage = () => {
         const imageWidth = (image.width > 600) ? 600 : image.width;
         const imageHeight = (image.height > 100) ? Math.round(image.height / (image.width / imageWidth)) : image.height;
@@ -53,9 +56,9 @@ export class Canvas extends React.Component<CanvasProps> {
         });
         this.ctx.drawImage(image, 0, 0, imageWidth, imageHeight);
       };
-      image.src = URL.createObjectURL(this.props.image);
       this.image = image;
-      this.isToolBarActive = true;
+      this.imageBackUp = image;
+      this.setState({ isToolBarActive: true });
       image.onload = drawImage;
     }
   }
@@ -107,11 +110,16 @@ export class Canvas extends React.Component<CanvasProps> {
       imgWidth: parseInt(cropAreaPosition.width),
       imgHeight: parseInt(cropAreaPosition.height),
     };
-    this.ctx.drawImage(this.image,
+    this.ctx.drawImage(this.canvas,
       imgParams.startLeft, imgParams.startTop, // start drowing image from top left
       imgParams.imgWidth, imgParams.imgHeight, // new image size
       0, 0, // top left position of new image
       this.state.width, this.state.height); // size of new image
+  }
+
+  private handleImageReset = () => {
+    this.ctx.drawImage(this.imageBackUp, 0, 0, this.state.width, this.state.height);
+    this.image = this.imageBackUp;
   }
 
   private handleImageSave = () => {
@@ -141,11 +149,12 @@ export class Canvas extends React.Component<CanvasProps> {
           width={this.state.width}
           height={this.state.height} />
         <CropArea
-          isToolBarActive={this.isToolBarActive}
+          isToolBarActive={this.state.isToolBarActive}
           onImageBlur={this.handleImageBlur}
           onImageGreyScale={this.handleImageGreyScale}
           onImageColor={this.handleImageColor}
           onImageCrop={this.handleImageCrop}
+          onImageReset={this.handleImageReset}
           onImageSave={this.handleImageSave}
           size={this.state} />
       </React.Fragment>

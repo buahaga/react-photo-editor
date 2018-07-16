@@ -6,15 +6,20 @@ interface ToolBarButtonProps {
   onClick: () => void;
   disabled: boolean;
   buttonStyle?: {
-    backgroundColor: string;
+    display?: string;
+    width?: string;
+    height?: string;
+    backgroundColor?: string;
   };
+  selector: string;
 }
 
 export class ToolBarButton extends React.Component<Partial<ToolBarButtonProps>> {
 
   public render() {
+    const buttonClass = `toolbar-btn ${this.props.selector}`;
     return (
-      <button className="toolbar-btn"
+      <button className={buttonClass}
         disabled={!this.props.disabled}
         onClick={() => { this.props.onClick() }}
         style={this.props.buttonStyle}>

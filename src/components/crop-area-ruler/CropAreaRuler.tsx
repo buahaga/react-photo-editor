@@ -16,7 +16,7 @@ export class CropAreaRuler extends React.Component<CropAreaRulerProps> {
   public render() {
     return (
       <Draggable onDrag={this.props.onDrag}>
-        <div className="test-ruler" style={this.props.style}></div>
+        <div className="crop-ruler" style={this.props.style}></div>
       </Draggable>
     );
   }

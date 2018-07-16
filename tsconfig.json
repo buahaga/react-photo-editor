@@ -3,14 +3,16 @@
       "allowSyntheticDefaultImports": true,
       "jsx": "react",
       "module": "commonjs",
+      "target": "es5",
+      "lib": ["es5", "es6"],
       "noImplicitAny": true,
       "outDir": "./build/",
       "preserveConstEnums": true,
       "removeComments": true,
-      "sourceMap": true,
-      "target": "es6"
+      "sourceMap": true
     },
     "include": [
-      "./src/**/**/*"
+      "./src/**/**/*",
+      "node_modules/@types/puppeteer/index.d.ts"
     ]
   }

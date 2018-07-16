@@ -23,7 +23,7 @@ export class FileUploader extends React.Component<FileUploaderProps, FileUploade
     };
   }
 
-  private onFileChange = (fileList: FileList) => {
+  private onFileChange (fileList: FileList) {
     this.setState({
       selectedFile: fileList[0],
       uploadProgress: 100
@@ -52,7 +52,7 @@ export class FileUploader extends React.Component<FileUploaderProps, FileUploade
     return (
       <form className="file-uploader">
         <label>
-          <div>Choose file or just drop it here:</div>
+          <div className="file-uploader-txt">Choose file or just drop it here:</div>
           <div className="upload-progress">
             <div style={{ width: `${this.state.uploadProgress}%` }} className="upload-progress-bar"></div>
           </div>
