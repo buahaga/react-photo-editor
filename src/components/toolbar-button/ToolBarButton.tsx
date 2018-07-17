@@ -3,15 +3,15 @@ import './ToolBarButton.css';
 
 interface ToolBarButtonProps {
   children: string;
-  onClick: () => void;
-  disabled: boolean;
+  onClick?: () => void;
+  disabled?: boolean;
   buttonStyle?: {
     display?: string;
     width?: string;
     height?: string;
     backgroundColor?: string;
   };
-  selector: string;
+  selector?: string;
 }
 
 export class ToolBarButton extends React.Component<Partial<ToolBarButtonProps>> {
@@ -21,7 +21,7 @@ export class ToolBarButton extends React.Component<Partial<ToolBarButtonProps>> 
     return (
       <button className={buttonClass}
         disabled={!this.props.disabled}
-        onClick={() => { this.props.onClick() }}
+        onClick={this.props.onClick}
         style={this.props.buttonStyle}>
         {this.props.children}
       </button>

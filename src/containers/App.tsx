@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { imageAction } from '../redux/actions/imageAction';
+import { uploadImage } from '../redux/actions/uploadImage';
 import { Canvas } from './canvas/Canvas';
 import { FileUploader } from '../components/file-uploader/FileUploader';
 import { Image } from '../interfaces/image';
@@ -62,7 +62,7 @@ function mapStateToProps(state: StateFromProps) {
 
 function mapDispatchToProps(dispatch: any): DispatchFromProps {
   return {
-    dispatchImgSrc: (image: Partial<Image>) => dispatch(imageAction(image))
+    dispatchImgSrc: (image: Partial<Image>) => dispatch(uploadImage(image))
   };
 }
 

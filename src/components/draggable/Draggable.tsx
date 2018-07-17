@@ -2,9 +2,9 @@ import * as React from 'react';
 import { Coords } from '../../interfaces/coords';
 
 interface DraggableProps {
-  onDragStart: (obj: Partial<Coords>) => void;
-  onDrag: (obj: Coords) => void;
-  onDragEnd: (obj: Coords) => void;
+  onDragStart: (coords: Partial<Coords>) => void;
+  onDrag: (coords: Coords) => void;
+  onDragEnd: (coords: Coords) => void;
   children: JSX.Element;
 }
 
@@ -28,7 +28,7 @@ export class Draggable extends React.Component<Partial<DraggableProps>> {
   }
 
   public componentDidMount() {
-    this.elem.addEventListener('mousedown', this.onMouseDown.bind(this));
+    this.elem.addEventListener('mousedown', this.onMouseDown);
   }
 
   public componentWillUnmount() {

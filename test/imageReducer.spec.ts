@@ -1,5 +1,5 @@
 import { imageReducer } from '../src/redux/reducers/imageReducer';
-import { IMAGE_ACTION } from '../src/redux/actions/actionTypes';
+import { UPLOAD_IMAGE } from '../src/redux/actions/actionTypes';
 
 describe('imageReducer', () => {
 
@@ -7,9 +7,9 @@ describe('imageReducer', () => {
     expect(imageReducer(undefined, {})).toEqual({ image: {} });
   });
 
-  it('should handle IMAGE_ACTION', () => {
+  it('should handle UPLOAD_IMAGE', () => {
     const action = {
-      type: IMAGE_ACTION,
+      type: UPLOAD_IMAGE,
       payload: 42
     }
     expect(imageReducer({image: 12}, action)).toEqual({image: 42});

@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { ToolBar } from '../toolbar/ToolBar';
 import { CropAreaRuler } from '../crop-area-ruler/CropAreaRuler';
-import { Draggable } from '../../HOC/draggable/Draggable';
+import { Draggable } from '../draggable/Draggable';
 import { Coords } from '../../interfaces/coords';
 import './CropArea.css';
 
 interface CropAreaProps {
   onImageBlur: () => void;
   onImageGreyScale: () => void;
-  onImageColor: () => void;
+  onImageHighLight: () => void;
   onImageCrop: (rectangle: CropAreaState) => void;
   onImageReset: () => void;
   onImageSave: () => void;
@@ -28,16 +28,13 @@ interface CropAreaState {
 
 export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
 
-  public state: CropAreaState;
-
   public constructor(props: CropAreaProps) {
     super(props);
-    this.cropImage = this.cropImage.bind(this);
     this.state = {
       width: `${this.props.size.width}px`,
       height: `${this.props.size.height}px`,
       top: 10,
-      left: 10,
+      left: 10
     };
   }
 
@@ -88,8 +85,6 @@ export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
 
   public render() {
 
-    const areaClassName = this.props.isToolBarActive ? 'crop-area' : 'crop-area hidden';
-    const rulerClassName = this.props.isToolBarActive ? 'crop-ruler' : 'crop-ruler hidden';
     const rulerStyle = {
       top: parseInt(this.state.height) + this.state.top,
       left: parseInt(this.state.width) + this.state.left
@@ -98,18 +93,18 @@ export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
     return (
       <React.Fragment>
         <Draggable
-          onDrag={(coords: Coords) => this.onCropAreaDrag(coords)}>
-          <div className={areaClassName} role="presentation" style={this.state}></div>
+          onDrag={this.onCropAreaDrag}>
+          <div className="crop-area" role="presentation" style={this.state}></div>
         </Draggable>
 
         <CropAreaRuler
-          rulerClassName={rulerClassName} style={rulerStyle}
-          onDrag={(coords: Coords) => this.onRulerDrag(coords)} />
+          style={rulerStyle}
+          onDrag={this.onRulerDrag} />
 
         <ToolBar isButtonActive={this.props.isToolBarActive}
           blurImage={this.props.onImageBlur}
           greyScaleImage={this.props.onImageGreyScale}
-          colorImage={this.props.onImageColor}
+          highlightImage={this.props.onImageHighLight}
           cropImage={this.cropImage}
           resetImage={this.props.onImageReset}
           saveImage={this.props.onImageSave} />

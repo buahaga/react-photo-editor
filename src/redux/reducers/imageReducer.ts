@@ -1,4 +1,4 @@
-import { IMAGE_ACTION } from '../actions/actionTypes';
+import { UPLOAD_IMAGE } from '../actions/actionTypes';
 import { Image } from '../../interfaces/image';
 
 interface ImageAction {
@@ -12,7 +12,7 @@ const initState = {
 
 export function imageReducer(state = initState, action: Partial<ImageAction>) {
   switch (action.type) {
-    case IMAGE_ACTION:
+    case UPLOAD_IMAGE:
       return {
         ...state,
         image: action.payload

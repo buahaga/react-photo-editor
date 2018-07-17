@@ -1,6 +1,6 @@
-const path = require('path'),
-  webpack = require('webpack'),
-  HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -19,20 +19,19 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        enforce: "pre",
-        loader: "eslint-loader",
+        enforce: 'pre',
+        loader: 'eslint-loader',
         exclude: /node_modules/,
         options: {
-          emitWarning: true,
-          configFile: "./.eslintrc"
+          emitWarning: true
         }
       }, {
         test: /\.(ts|tsx)$/,
         loader: 'ts-loader'
       }, {
-        enforce: "pre",
+        enforce: 'pre',
         test: /\.js$/,
-        loader: "source-map-loader"
+        loader: 'source-map-loader'
       }, {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
@@ -45,8 +44,5 @@ module.exports = {
       template: path.resolve(__dirname, 'src', 'index.html')
     })
   ],
-  performance: {
-    hints: false
-  },
-  mode: "development"
+  mode: 'development'
 }

@@ -62,7 +62,7 @@ describe('React-Photo-Editor_E2E', () => {
     const selector = '.upload-progress-bar';
     const progressBar = await page.$(selector);
     const { width } = await progressBar.boundingBox();
-    expect(width).toBeGreaterThan(100);
+    expect(width).toBeGreaterThan(50);
   });
 
   test('After picture is uploaded toolBar is active', async () => {
@@ -75,7 +75,7 @@ describe('React-Photo-Editor_E2E', () => {
     const selector = '.crop-ruler';
     const ruler = await page.$(selector);
     const { x, y } = await ruler.boundingBox();
-    await await dragElement(page, x, y, -100, -100);
+    await dragElement(page, x, y, -100, -100);
     const result = await ruler.boundingBox();
     expect(result.x).toBeLessThan(x);
   });
@@ -103,7 +103,7 @@ describe('React-Photo-Editor_E2E', () => {
   });
 
   test('After picture is uploaded canvas changing on click Color', async () => {
-    const selector = '.color';
+    const selector = '.highlight';
     await page.waitForSelector(selector);
     await page.click(selector);
   });

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { DrawToolBar } from '../../components/draw-toolbar/DrawToolBar';
 import { CropArea } from '../../components/crop-area/CropArea';
 import { Image } from '../../interfaces/image';
 import './Canvas.css';
@@ -91,7 +92,7 @@ export class Canvas extends React.Component<CanvasProps> {
     this.saveChanges();
   }
 
-  private handleImageColor = () => {
+  private handleImageHighlight = () => {
     const imgData = this.ctx.getImageData(0, 0, this.state.width, this.state.height);
     const pixels = imgData.data;
     for (var i = 0, n = pixels.length; i < n; i += 4) {
@@ -124,8 +125,8 @@ export class Canvas extends React.Component<CanvasProps> {
 
   private handleImageSave = () => {
     this.canvas.toBlob((blob) => {
-      const newImg = document.createElement('img'),
-        url = URL.createObjectURL(blob);
+      const newImg = document.createElement('img');
+      const url = URL.createObjectURL(blob);
       newImg.onload = () => {
         URL.revokeObjectURL(url);
       };
@@ -148,11 +149,12 @@ export class Canvas extends React.Component<CanvasProps> {
           ref={(canvas) => this.canvas = canvas}
           width={this.state.width}
           height={this.state.height} />
+        <DrawToolBar />
         <CropArea
           isToolBarActive={this.state.isToolBarActive}
           onImageBlur={this.handleImageBlur}
           onImageGreyScale={this.handleImageGreyScale}
-          onImageColor={this.handleImageColor}
+          onImageHighLight={this.handleImageHighlight}
           onImageCrop={this.handleImageCrop}
           onImageReset={this.handleImageReset}
           onImageSave={this.handleImageSave}

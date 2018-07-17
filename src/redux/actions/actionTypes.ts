@@ -1,1 +1,1 @@
-export const IMAGE_ACTION = 'IMAGE_ACTION';
+export const UPLOAD_IMAGE = 'UPLOAD_IMAGE';

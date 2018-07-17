@@ -3,11 +3,11 @@ import { Image } from '../../interfaces/image';
 import './FileUploader.css';
 
 interface FileUploaderProps {
-  uploadToCanvas: (url: Partial<Image>) => void;
+  uploadToCanvas: (image: Partial<Image>) => void;
 }
 
 interface FileUploaderState {
-  selectedFile: Partial<{ name: string }>;
+  selectedFile?: Image;
   uploadProgress: number;
 }
 
@@ -18,7 +18,6 @@ export class FileUploader extends React.Component<FileUploaderProps, FileUploade
   public constructor(props: FileUploaderProps) {
     super(props);
     this.state = {
-      selectedFile: {},
       uploadProgress: 1
     };
   }

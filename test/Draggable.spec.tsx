@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import { Draggable } from '../src/HOC/draggable/Draggable';
+import { Draggable } from '../src/components/draggable/Draggable';
 
 describe('Draggable', () => {
 
