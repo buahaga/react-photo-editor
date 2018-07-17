@@ -3,3 +3,7 @@
   border: 3px dashed orange;
   cursor: move;
 }
+
+.crop-area.hidden {
+  display: none;
+}

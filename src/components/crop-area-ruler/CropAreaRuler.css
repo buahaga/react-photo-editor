@@ -6,3 +6,7 @@
   background-color: red;
   cursor: pointer;
 }
+
+.crop-ruler.hidden {
+  display: none;
+}

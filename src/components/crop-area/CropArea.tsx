@@ -51,17 +51,29 @@ export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
   }
 
   private onCropAreaDrag = (coords: Coords) => {
-    this.setState({
-      top: coords.deltaY,
-      left: coords.deltaX
-    });
+    const currentWidth = coords.deltaX + parseInt(this.state.width);
+    const currentHeight = coords.deltaY + parseInt(this.state.height);
+    if (currentWidth < this.props.size.width + 10 &&
+      currentHeight < this.props.size.height + 10 &&
+      coords.deltaX > 10 && coords.deltaY > 10) {
+      this.setState({
+        top: coords.deltaY,
+        left: coords.deltaX
+      });
+    }
   }
 
   private onRulerDrag = (coords: Coords) => {
-    this.setState({
-      width: `${coords.x - this.state.left}px`,
-      height: `${coords.y - this.state.top}px`
-    });
+    const offsetX = coords.x - this.state.left;
+    const offsetY = coords.y - this.state.top;
+    if (offsetX < this.props.size.width &&
+      offsetY < this.props.size.height &&
+      offsetX > 10 && offsetY > 10) {
+      this.setState({
+        width: `${coords.x - this.state.left}px`,
+        height: `${coords.y - this.state.top}px`
+      });
+    }
   }
 
   private cropImage = () => {
@@ -76,6 +88,8 @@ export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
 
   public render() {
 
+    const areaClassName = this.props.isToolBarActive ? 'crop-area' : 'crop-area hidden';
+    const rulerClassName = this.props.isToolBarActive ? 'crop-ruler' : 'crop-ruler hidden';
     const rulerStyle = {
       top: parseInt(this.state.height) + this.state.top,
       left: parseInt(this.state.width) + this.state.left
@@ -85,11 +99,11 @@ export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
       <React.Fragment>
         <Draggable
           onDrag={(coords: Coords) => this.onCropAreaDrag(coords)}>
-          <div className="crop-area" role="presentation" style={this.state}></div>
+          <div className={areaClassName} role="presentation" style={this.state}></div>
         </Draggable>
 
         <CropAreaRuler
-          style={rulerStyle}
+          rulerClassName={rulerClassName} style={rulerStyle}
           onDrag={(coords: Coords) => this.onRulerDrag(coords)} />
 
         <ToolBar isButtonActive={this.props.isToolBarActive}

@@ -4,7 +4,7 @@
       "jsx": "react",
       "module": "commonjs",
       "target": "es5",
-      "lib": ["es5", "es6"],
+      "lib": ["es5", "es6", "es2015", "es2016", "dom"],
       "noImplicitAny": true,
       "outDir": "./build/",
       "preserveConstEnums": true,
