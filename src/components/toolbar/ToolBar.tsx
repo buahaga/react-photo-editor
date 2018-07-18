@@ -16,11 +16,11 @@ export class ToolBar extends React.Component<ToolBarProps> {
 
   public render(): React.ReactNode {
     const resetButtonStyle = {
-      width: '30px'
+      width: '30px',
     };
     const saveButtonStyle = {
       width: '60px',
-      backgroundColor: 'lightblue'
+      backgroundColor: 'lightblue',
     };
 
     return (

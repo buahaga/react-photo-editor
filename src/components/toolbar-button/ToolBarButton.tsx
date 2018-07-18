@@ -16,7 +16,7 @@ interface ToolBarButtonProps {
 
 export class ToolBarButton extends React.Component<Partial<ToolBarButtonProps>> {
 
-  public render() {
+  public render(): React.ReactNode {
     const buttonClass = `toolbar-btn ${this.props.selector}`;
     return (
       <button className={buttonClass}

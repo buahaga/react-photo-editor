@@ -12,7 +12,7 @@ export class DrawToolBar extends React.Component<DrawToolBarProps> {
 
     const buttonStyle = {
       display: 'block',
-      width: '80px'
+      width: '80px',
     };
 
     return (

@@ -23,7 +23,7 @@ export class Draggable extends React.Component<Partial<DraggableProps>> {
     super(props);
     this.start = {
       x: 0,
-      y: 0
+      y: 0,
     };
   }
 
@@ -40,7 +40,7 @@ export class Draggable extends React.Component<Partial<DraggableProps>> {
     document.addEventListener('mouseup', this.onMouseUp);
     this.start = {
       x: evt.clientX,
-      y: evt.clientY
+      y: evt.clientY,
     };
     this.props.onDragStart(this.start);
   };
@@ -51,7 +51,7 @@ export class Draggable extends React.Component<Partial<DraggableProps>> {
       x: evt.clientX,
       y: evt.clientY,
       deltaX: evt.clientX - this.start.x,
-      deltaY: evt.clientY - this.start.y
+      deltaY: evt.clientY - this.start.y,
     };
     this.props.onDrag(currentPosition);
   };
@@ -61,7 +61,7 @@ export class Draggable extends React.Component<Partial<DraggableProps>> {
     document.removeEventListener('mouseup', this.onMouseUp);
   };
 
-  public render() {
+  public render(): React.ReactNode {
     return (
       <div className="draggable" ref={elem => this.elem = elem}>
         {this.props.children}

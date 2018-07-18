@@ -7,7 +7,7 @@ interface ImageAction {
 }
 
 const initState = {
-  image: {}
+  image: {},
 };
 
 export function imageReducer(state = initState, action: Partial<ImageAction>) {
@@ -15,7 +15,7 @@ export function imageReducer(state = initState, action: Partial<ImageAction>) {
     case UPLOAD_IMAGE:
       return {
         ...state,
-        image: action.payload
+        image: action.payload,
       };
     default:
       return state;

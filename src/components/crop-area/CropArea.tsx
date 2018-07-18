@@ -34,7 +34,7 @@ export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
       width: `${this.props.size.width}px`,
       height: `${this.props.size.height}px`,
       top: 10,
-      left: 10
+      left: 10,
     };
   }
 
@@ -42,7 +42,7 @@ export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
     if (this.props.size.width !== prevProps.size.width || this.props.size.height !== prevProps.size.height) {
       this.setState({
         width: `${this.props.size.width}px`,
-        height: `${this.props.size.height}px`
+        height: `${this.props.size.height}px`,
       });
     }
   }
@@ -55,7 +55,7 @@ export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
       coords.deltaX > 10 && coords.deltaY > 10) {
       this.setState({
         top: coords.deltaY,
-        left: coords.deltaX
+        left: coords.deltaX,
       });
     }
   }
@@ -68,7 +68,7 @@ export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
       offsetX > 10 && offsetY > 10) {
       this.setState({
         width: `${coords.x - this.state.left}px`,
-        height: `${coords.y - this.state.top}px`
+        height: `${coords.y - this.state.top}px`,
       });
     }
   }
@@ -83,11 +83,11 @@ export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
     });
   }
 
-  public render() {
+  public render(): React.ReactNode {
 
     const rulerStyle = {
       top: parseInt(this.state.height) + this.state.top,
-      left: parseInt(this.state.width) + this.state.left
+      left: parseInt(this.state.width) + this.state.left,
     };
 
     return (

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { DrawToolBar } from '../../components/draw-toolbar/DrawToolBar';
 import { CropArea } from '../../components/crop-area/CropArea';
+import { blur, greyscale, highlight } from '../../helpers/canvas-helpers';
 import { Image } from '../../interfaces/image';
 import './Canvas.css';
 
@@ -34,7 +35,7 @@ export class Canvas extends React.Component<CanvasProps> {
     this.state = {
       width: 600,
       height: 500,
-      isToolBarActive: false
+      isToolBarActive: false,
     };
   }
 
@@ -53,55 +54,33 @@ export class Canvas extends React.Component<CanvasProps> {
         const imageHeight = (image.height > 100) ? Math.round(image.height / (image.width / imageWidth)) : image.height;
         this.setState({
           width: imageWidth,
-          height: imageHeight
+          height: imageHeight,
         });
         this.ctx.drawImage(image, 0, 0, imageWidth, imageHeight);
       };
       this.image = image;
       this.imageBackUp = image;
-      this.setState({ isToolBarActive: true });
+      this.setState({ isToolBarActive: true, });
       image.onload = drawImage;
     }
   }
 
   private handleImageBlur = () => {
-    const blur = 5;
-    this.ctx.globalAlpha = 0.5;
-    for (let y = -blur; y <= blur; y += 2) {
-      for (let x = -blur; x <= blur; x += 2) {
-        this.ctx.drawImage(this.image, x, y);
-        if (x >= 0 && y >= 0) {
-          this.ctx.drawImage(this.image, -(x - 1), -(y - 1));
-        }
-      }
-    }
-    this.ctx.globalAlpha = 1.0;
-    this.saveChanges();
+    const imgData = this.ctx.getImageData(0, 0, this.state.width, this.state.height);
+    blur(imgData, 3, 3);
+    this.saveChanges(imgData);
   }
 
   private handleImageGreyScale = () => {
     const imgData = this.ctx.getImageData(0, 0, this.state.width, this.state.height);
-    const pixels = imgData.data;
-    for (let i = 0, n = pixels.length; i < n; i += 4) {
-      const grayscale = pixels[i] * 0.3 + pixels[i + 1] * 0.59 + pixels[i + 2] * 0.11;
-      pixels[i] = grayscale; // red
-      pixels[i + 1] = grayscale; // green
-      pixels[i + 2] = grayscale; // blue
-    }
-    this.ctx.putImageData(imgData, 0, 0);
-    this.saveChanges();
+    greyscale(imgData);
+    this.saveChanges(imgData);
   }
 
   private handleImageHighlight = () => {
     const imgData = this.ctx.getImageData(0, 0, this.state.width, this.state.height);
-    const pixels = imgData.data;
-    for (var i = 0, n = pixels.length; i < n; i += 4) {
-      pixels[i] = pixels[i] * 2;
-      pixels[i + 1] = pixels[i + 1] * 2;
-      pixels[i + 2] = pixels[i + 2] * 2;
-    }
-    this.ctx.putImageData(imgData, 0, 0);
-    this.saveChanges();
+    highlight(imgData);
+    this.saveChanges(imgData);
   }
 
   private handleImageCrop = (cropAreaPosition: CropAreaPosition) => {
@@ -111,11 +90,8 @@ export class Canvas extends React.Component<CanvasProps> {
       imgWidth: parseInt(cropAreaPosition.width),
       imgHeight: parseInt(cropAreaPosition.height),
     };
-    this.ctx.drawImage(this.canvas,
-      imgParams.startLeft, imgParams.startTop, // start drowing image from top left
-      imgParams.imgWidth, imgParams.imgHeight, // new image size
-      0, 0, // top left position of new image
-      this.state.width, this.state.height); // size of new image
+    this.ctx.drawImage(this.canvas, imgParams.startLeft, imgParams.startTop,
+      imgParams.imgWidth, imgParams.imgHeight, 0, 0, this.state.width, this.state.height);
   }
 
   private handleImageReset = () => {
@@ -135,7 +111,8 @@ export class Canvas extends React.Component<CanvasProps> {
     });
   }
 
-  private saveChanges = () => {
+  private saveChanges = (imgData: ImageData) => {
+    this.ctx.putImageData(imgData, 0, 0);
     this.canvas.toBlob(() => {
       const newImg = new Image();
       this.image = newImg;

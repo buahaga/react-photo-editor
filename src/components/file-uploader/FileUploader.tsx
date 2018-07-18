@@ -18,14 +18,14 @@ export class FileUploader extends React.Component<FileUploaderProps, FileUploade
   public constructor(props: FileUploaderProps) {
     super(props);
     this.state = {
-      uploadProgress: 1
+      uploadProgress: 1,
     };
   }
 
   private onFileChange (fileList: FileList) {
     this.setState({
       selectedFile: fileList[0],
-      uploadProgress: 100
+      uploadProgress: 100,
     }, () => {
       this.uploadFile();
     });
@@ -47,13 +47,13 @@ export class FileUploader extends React.Component<FileUploaderProps, FileUploade
     });
   }
 
-  public render() {
+  public render(): React.ReactNode {
     return (
       <form className="file-uploader">
         <label>
           <div className="file-uploader-txt">Choose file or just drop it here:</div>
           <div className="upload-progress">
-            <div style={{ width: `${this.state.uploadProgress}%` }} className="upload-progress-bar"></div>
+            <div style={{ width: `${this.state.uploadProgress}%`, }} className="upload-progress-bar"></div>
           </div>
           <input className="drop-area" ref={(dropzone) => this.dropZone = dropzone}
             type="file" accept="image/jpg,image/jpeg,image/png"

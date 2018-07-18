@@ -7,12 +7,12 @@ import { Image } from '../interfaces/image';
 import './App.css';
 
 interface DispatchFromProps {
-  dispatchImgSrc: (value: Partial<Image>) => void;
+  dispatchImgSrc: (value: Image) => void;
 }
 
 interface StateFromProps {
   imageReducer: {
-    image: Partial<Image>;
+    image: Image;
   };
 }
 
@@ -22,19 +22,19 @@ interface AppState {
 
 export class App extends React.Component<any> {
 
-  public state: Partial<AppState>;
+  public state: AppState;
 
   public constructor(props: any) {
     super(props);
     this.state = {
-      image: {}
+      image: {},
     };
   }
 
   public componentDidUpdate(prevProps: any) {
     if (this.props.image.name !== prevProps.image.name) {
       this.setState({
-        image: this.props.image
+        image: this.props.image,
       });
     }
   }
@@ -56,13 +56,13 @@ export class App extends React.Component<any> {
 
 function mapStateToProps(state: StateFromProps) {
   return {
-    image: state.imageReducer.image
+    image: state.imageReducer.image,
   };
 }
 
 function mapDispatchToProps(dispatch: any): DispatchFromProps {
   return {
-    dispatchImgSrc: (image: Partial<Image>) => dispatch(uploadImage(image))
+    dispatchImgSrc: (image: Partial<Image>) => dispatch(uploadImage(image)),
   };
 }
 
