@@ -3,5 +3,6 @@
   vertical-align: top;
   margin-left: 10px;
   width: 100px;
-  border: thin solid red;
+  height: 300px;
+  background-color: lightgrey;
 }

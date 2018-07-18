@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import { Canvas } from '../src/containers/canvas/Canvas';
+import { Canvas } from '../../src/containers/canvas/Canvas';
 
 describe('Canvas', () => {
 
@@ -8,5 +8,5 @@ describe('Canvas', () => {
     const canvas = mount(<Canvas />);
     expect(canvas.find('.canvas').exists()).toBe(true)
   });
-  
+
 });

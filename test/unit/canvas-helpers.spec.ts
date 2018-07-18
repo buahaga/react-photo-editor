@@ -1,4 +1,4 @@
-import { blur, greyscale, highlight} from '../src/helpers/canvas-helpers';
+import { blur, greyscale, highlight} from '../../src/helpers/canvas-helpers';
 
 describe('canvasHelpers', () => {
   const imgData = {

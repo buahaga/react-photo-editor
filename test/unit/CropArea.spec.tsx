@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import { CropArea } from '../src/components/crop-area/CropArea';
+import { CropArea } from '../../src/components/crop-area/CropArea';
 
 describe('CropArea', () => {
 
@@ -27,5 +27,5 @@ describe('CropArea', () => {
   it('should have ToolaBar inside', () => {
     expect(cropArea.find('.toolbar').exists()).toBe(true)
   });
-  
+
 });

@@ -5,4 +5,5 @@
 .canvas {
   position: relative;
   border: 5px ridge lightgrey;
+  cursor: pointer;
 }

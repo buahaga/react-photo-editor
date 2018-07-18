@@ -20,7 +20,12 @@ interface AppState {
   image: Partial<Image>;
 }
 
-export class App extends React.Component<any> {
+interface AppProps {
+  dispatchImgSrc: (value: Image) => void;
+  image: Image;
+}
+
+export class App extends React.Component<AppProps> {
 
   public state: AppState;
 
@@ -31,7 +36,7 @@ export class App extends React.Component<any> {
     };
   }
 
-  public componentDidUpdate(prevProps: any) {
+  public componentDidUpdate(prevProps: AppProps) {
     if (this.props.image.name !== prevProps.image.name) {
       this.setState({
         image: this.props.image,
@@ -43,12 +48,13 @@ export class App extends React.Component<any> {
     const image = this.state.image;
 
     return (
-      <div className="app">
-        <Canvas
-          image={image}
-        ></Canvas>
+      <React.Fragment>
+
+        <Canvas image={image} />
+
         <FileUploader uploadToCanvas={this.props.dispatchImgSrc} />
-      </div>
+
+      </React.Fragment>
     );
   }
 
@@ -62,7 +68,7 @@ function mapStateToProps(state: StateFromProps) {
 
 function mapDispatchToProps(dispatch: any): DispatchFromProps {
   return {
-    dispatchImgSrc: (image: Partial<Image>) => dispatch(uploadImage(image)),
+    dispatchImgSrc: (image: Image) => dispatch(uploadImage(image)),
   };
 }
 

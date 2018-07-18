@@ -44,7 +44,7 @@ describe('React-Photo-Editor_E2E', () => {
   });
 
   test('Before picture is uploaded toolBar is disabled', async () => {
-    const selector = '.crop';
+    const selector = '#Crop';
     const disabled = await page.$eval(selector, el => el.disabled);
     expect(disabled).toBeTruthy();
   });
@@ -66,9 +66,34 @@ describe('React-Photo-Editor_E2E', () => {
   });
 
   test('After picture is uploaded toolBar is active', async () => {
-    const selector = '.crop';
+    const selector = '#Crop';
     const disabled = await page.$eval(selector, el => el.disabled);
     expect(disabled).toBeFalsy();
+  });
+
+  //TODO how to check changes from canvas
+  test('After picture is uploaded canvas changing on click Blur', async () => {
+    const selector = '#Blur';
+    await page.waitForSelector(selector);
+    await page.click(selector);
+  });
+
+  test('After picture is uploaded canvas changing on click Black&White', async () => {
+    const selector = '#Greyscale';
+    await page.waitForSelector(selector);
+    await page.click(selector);
+  });
+
+  test('After picture is uploaded canvas changing on click Color', async () => {
+    const selector = '#Highlight';
+    await page.waitForSelector(selector);
+    await page.click(selector);
+  });
+
+  test('After picture is uploaded canvas changing on click Crop', async () => {
+    const selector = '#Crop';
+    await page.waitForSelector(selector);
+    await page.click(selector);
   });
 
   test('CropArea size change on cropRuler drag', async () => {
@@ -89,43 +114,24 @@ describe('React-Photo-Editor_E2E', () => {
     expect(result.x).toBeGreaterThan(x);
   });
 
-  //TODO how to check changes from canvas
-  test('After picture is uploaded canvas changing on click Blur', async () => {
-    const selector = '.blur';
-    await page.waitForSelector(selector);
-    await page.click(selector);
-  });
-
-  test('After picture is uploaded canvas changing on click Black&White', async () => {
-    const selector = '.greyscale';
-    await page.waitForSelector(selector);
-    await page.click(selector);
-  });
-
-  test('After picture is uploaded canvas changing on click Color', async () => {
-    const selector = '.highlight';
-    await page.waitForSelector(selector);
-    await page.click(selector);
-  });
-
-  test('After picture is uploaded canvas changing on click Crop', async () => {
-    const selector = '.crop';
-    await page.waitForSelector(selector);
-    await page.click(selector);
-  });
-
   test('After picture is uploaded canvas changing on click Reset', async () => {
-    const selector = '.reset';
+    const selector = '#⟳';
     await page.waitForSelector(selector);
     await page.click(selector);
   });
 
   test('After picture is uploaded canvas changing on click Save', async () => {
-    const selector = '.save';
+    const selector = '#Save';
     await page.waitForSelector(selector);
     await page.click(selector);
     const newImageOnPage = await page.waitForSelector('img');
     expect(newImageOnPage).toBeTruthy();
+  });
+
+  test('Canvas changing on click Clear', async () => {
+    const selector = '#Clear';
+    await page.waitForSelector(selector);
+    await page.click(selector);
   });
 
   afterAll(() => {

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { shallow, mount } from 'enzyme';
-import { FileUploader } from '../src/components/file-uploader/FileUploader';
+import { FileUploader } from '../../src/components/file-uploader/FileUploader';
 
 describe('FileUploader', () => {
 

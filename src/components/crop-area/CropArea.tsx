@@ -11,7 +11,6 @@ interface CropAreaProps {
   onImageHighLight: () => void;
   onImageCrop: (rectangle: CropAreaState) => void;
   onImageReset: () => void;
-  onImageSave: () => void;
   size: {
     width: number;
     height: number;
@@ -27,6 +26,8 @@ interface CropAreaState {
 }
 
 export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
+
+  private croparea: HTMLElement;
 
   public constructor(props: CropAreaProps) {
     super(props);
@@ -74,6 +75,7 @@ export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
   }
 
   private cropImage = () => {
+    this.croparea.removeAttribute('hidden');
     this.props.onImageCrop(this.state);
     this.setState({
       width: `${this.props.size.width}px`,
@@ -86,28 +88,32 @@ export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
   public render(): React.ReactNode {
 
     const rulerStyle = {
-      top: parseInt(this.state.height) + this.state.top,
-      left: parseInt(this.state.width) + this.state.left,
+      top: parseInt(this.state.height),
+      left: parseInt(this.state.width),
     };
 
     return (
       <React.Fragment>
         <Draggable
           onDrag={this.onCropAreaDrag}>
-          <div className="crop-area" role="presentation" style={this.state}></div>
+          <div className="crop-area"
+            ref={(croparea) => this.croparea = croparea}
+            role="presentation" hidden
+            style={this.state}>
+            <CropAreaRuler
+              style={rulerStyle}
+              onDrag={this.onRulerDrag} />
+          </div>
         </Draggable>
 
-        <CropAreaRuler
-          style={rulerStyle}
-          onDrag={this.onRulerDrag} />
+
 
         <ToolBar isButtonActive={this.props.isToolBarActive}
           blurImage={this.props.onImageBlur}
           greyScaleImage={this.props.onImageGreyScale}
           highlightImage={this.props.onImageHighLight}
           cropImage={this.cropImage}
-          resetImage={this.props.onImageReset}
-          saveImage={this.props.onImageSave} />
+          resetImage={this.props.onImageReset} />
       </React.Fragment>
     );
   }

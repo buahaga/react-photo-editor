@@ -1,5 +1,5 @@
-import { imageReducer } from '../src/redux/reducers/imageReducer';
-import { UPLOAD_IMAGE } from '../src/redux/actions/actionTypes';
+import { imageReducer } from '../../src/redux/reducers/imageReducer';
+import { UPLOAD_IMAGE } from '../../src/redux/actions/actionTypes';
 
 describe('imageReducer', () => {
 

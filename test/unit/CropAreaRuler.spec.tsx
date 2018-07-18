@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
-import { CropAreaRuler } from '../src/components/crop-area-ruler/CropAreaRuler';
+import { CropAreaRuler } from '../../src/components/crop-area-ruler/CropAreaRuler';
 
 describe('ToolBar', () => {
 
@@ -8,5 +8,5 @@ describe('ToolBar', () => {
     const wrapper = shallow(<CropAreaRuler />)
     expect(wrapper.find('.crop-ruler').html())
   });
-  
+
 });
