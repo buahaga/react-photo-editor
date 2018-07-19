@@ -9,7 +9,7 @@ interface CropAreaProps {
   onImageBlur: () => void;
   onImageGreyScale: () => void;
   onImageHighLight: () => void;
-  onImageCrop: (rectangle: CropAreaState) => void;
+  onImageCrop: (rectangle: CropAreaPosition) => void;
   onImageReset: () => void;
   size: {
     width: number;
@@ -18,11 +18,18 @@ interface CropAreaProps {
   isToolBarActive: boolean;
 }
 
-interface CropAreaState {
+interface CropAreaPosition {
   top: number;
   left: number;
   width: string;
   height: string;
+}
+
+interface CropAreaState {
+  top: number;
+  left: number;
+  width: number;
+  height: number;
 }
 
 export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
@@ -32,8 +39,8 @@ export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
   public constructor(props: CropAreaProps) {
     super(props);
     this.state = {
-      width: `${this.props.size.width}px`,
-      height: `${this.props.size.height}px`,
+      width: this.props.size.width,
+      height: this.props.size.height,
       top: 10,
       left: 10,
     };
@@ -42,15 +49,15 @@ export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
   public componentDidUpdate(prevProps: CropAreaProps) {
     if (this.props.size.width !== prevProps.size.width || this.props.size.height !== prevProps.size.height) {
       this.setState({
-        width: `${this.props.size.width}px`,
-        height: `${this.props.size.height}px`,
+        width: this.props.size.width,
+        height: this.props.size.height,
       });
     }
   }
 
   private onCropAreaDrag = (coords: Coords) => {
-    const currentWidth = coords.deltaX + parseInt(this.state.width);
-    const currentHeight = coords.deltaY + parseInt(this.state.height);
+    const currentWidth = coords.deltaX + this.state.width;
+    const currentHeight = coords.deltaY + this.state.height;
     if (currentWidth < this.props.size.width + 10 &&
       currentHeight < this.props.size.height + 10 &&
       coords.deltaX > 10 && coords.deltaY > 10) {
@@ -68,18 +75,24 @@ export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
       offsetY < this.props.size.height &&
       offsetX > 10 && offsetY > 10) {
       this.setState({
-        width: `${coords.x - this.state.left}px`,
-        height: `${coords.y - this.state.top}px`,
+        width: coords.x - this.state.left,
+        height: coords.y - this.state.top,
       });
     }
   }
 
   private cropImage = () => {
     this.croparea.removeAttribute('hidden');
-    this.props.onImageCrop(this.state);
+    const areaPosition = {
+      width: `${this.state.width}px`,
+      height: `${this.state.height}px`,
+      top: this.state.top,
+      left: this.state.left,
+    };
+    this.props.onImageCrop(areaPosition);
     this.setState({
-      width: `${this.props.size.width}px`,
-      height: `${this.props.size.height}px`,
+      width: this.props.size.width,
+      height: this.props.size.height,
       top: 10,
       left: 10,
     });
@@ -87,9 +100,15 @@ export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
 
   public render(): React.ReactNode {
 
+    const areaStyle = {
+      width: `${this.state.width}px`,
+      height: `${this.state.height}px`,
+      top: this.state.top,
+      left: this.state.left,
+    };
     const rulerStyle = {
-      top: parseInt(this.state.height),
-      left: parseInt(this.state.width),
+      top: this.state.height,
+      left: this.state.width,
     };
 
     return (
@@ -99,7 +118,7 @@ export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
           <div className="crop-area"
             ref={(croparea) => this.croparea = croparea}
             role="presentation" hidden
-            style={this.state}>
+            style={areaStyle}>
             <CropAreaRuler
               style={rulerStyle}
               onDrag={this.onRulerDrag} />

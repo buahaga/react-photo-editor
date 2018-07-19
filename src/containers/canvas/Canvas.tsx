@@ -84,7 +84,7 @@ export class Canvas extends React.Component<CanvasProps> {
     }
   }
 
-  private drawOnCanvas = (evt: MouseEvent,) => {
+  private drawOnCanvas = (evt: MouseEvent, ) => {
     if (!this.state.iDraw) return;
     this.ctx.beginPath();
     this.ctx.moveTo(this.state.lastX, this.state.lastY);
@@ -95,7 +95,7 @@ export class Canvas extends React.Component<CanvasProps> {
 
   private handleImageBlur = () => {
     const imgData = this.ctx.getImageData(0, 0, this.state.width, this.state.height);
-    blur(imgData, 3, 3);
+    blur(imgData, 5);
     this.saveChanges(imgData);
   }
 
@@ -150,15 +150,23 @@ export class Canvas extends React.Component<CanvasProps> {
   }
 
   private saveCanvas = () => {
-    this.canvas.toBlob((blob) => {
-      const newImg = document.createElement('img');
-      const url = URL.createObjectURL(blob);
-      newImg.onload = () => {
-        URL.revokeObjectURL(url);
-      };
-      newImg.src = url;
-      document.body.appendChild(newImg);
-    });
+    // this.canvas.toBlob((blob) => {
+    //   const newImg = document.createElement('img');
+    //   const url = URL.createObjectURL(blob);
+    //   newImg.onload = () => {
+    //     URL.revokeObjectURL(url);
+    //   };
+    //   newImg.src = url;
+    //   document.body.appendChild(newImg);
+    // });
+
+    const imgData = this.canvas.toDataURL();
+    const image = new Image();
+    const link = document.createElement('a');
+    image.src = imgData;
+    link.setAttribute('href', image.src);
+    link.setAttribute('download', 'canvasImage');
+    link.click();
   }
 
   public render(): React.ReactNode {

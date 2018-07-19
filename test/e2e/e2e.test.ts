@@ -44,7 +44,7 @@ describe('React-Photo-Editor_E2E', () => {
   });
 
   test('Before picture is uploaded toolBar is disabled', async () => {
-    const selector = '#Crop';
+    const selector = '#crop';
     const disabled = await page.$eval(selector, el => el.disabled);
     expect(disabled).toBeTruthy();
   });
@@ -66,32 +66,32 @@ describe('React-Photo-Editor_E2E', () => {
   });
 
   test('After picture is uploaded toolBar is active', async () => {
-    const selector = '#Crop';
+    const selector = '#crop';
     const disabled = await page.$eval(selector, el => el.disabled);
     expect(disabled).toBeFalsy();
   });
 
   //TODO how to check changes from canvas
   test('After picture is uploaded canvas changing on click Blur', async () => {
-    const selector = '#Blur';
+    const selector = '#blur';
     await page.waitForSelector(selector);
     await page.click(selector);
   });
 
   test('After picture is uploaded canvas changing on click Black&White', async () => {
-    const selector = '#Greyscale';
+    const selector = '#greyscale';
     await page.waitForSelector(selector);
     await page.click(selector);
   });
 
   test('After picture is uploaded canvas changing on click Color', async () => {
-    const selector = '#Highlight';
+    const selector = '#highlight';
     await page.waitForSelector(selector);
     await page.click(selector);
   });
 
   test('After picture is uploaded canvas changing on click Crop', async () => {
-    const selector = '#Crop';
+    const selector = '#crop';
     await page.waitForSelector(selector);
     await page.click(selector);
   });
@@ -109,19 +109,19 @@ describe('React-Photo-Editor_E2E', () => {
     const selector = '.crop-area';
     const area = await page.$(selector);
     const { x, y } = await area.boundingBox();
-    await await dragElement(page, x, y, 100, 100);
+    await dragElement(page, x, y, 100, 100);
     const result = await area.boundingBox();
     expect(result.x).toBeGreaterThan(x);
   });
 
   test('After picture is uploaded canvas changing on click Reset', async () => {
-    const selector = '#⟳';
+    const selector = '#mtaymjc';
     await page.waitForSelector(selector);
     await page.click(selector);
   });
 
   test('After picture is uploaded canvas changing on click Save', async () => {
-    const selector = '#Save';
+    const selector = '#save';
     await page.waitForSelector(selector);
     await page.click(selector);
     const newImageOnPage = await page.waitForSelector('img');
@@ -129,7 +129,7 @@ describe('React-Photo-Editor_E2E', () => {
   });
 
   test('Canvas changing on click Clear', async () => {
-    const selector = '#Clear';
+    const selector = '#clear';
     await page.waitForSelector(selector);
     await page.click(selector);
   });

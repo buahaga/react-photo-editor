@@ -17,8 +17,12 @@ interface ToolBarButtonProps {
 export class ToolBarButton extends React.Component<Partial<ToolBarButtonProps>> {
 
   public render(): React.ReactNode {
+    const buttonID = this.props.children.charCodeAt(0) < 1000 ?
+      this.props.children.toLowerCase() :
+      btoa(this.props.children.charCodeAt(0).toString()).slice(0, -1).toLowerCase();
+
     return (
-      <button id={this.props.children}
+      <button id={buttonID}
         className="toolbar-btn"
         disabled={!this.props.disabled}
         onClick={this.props.onClick}

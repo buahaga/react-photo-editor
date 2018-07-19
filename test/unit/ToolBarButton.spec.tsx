@@ -5,8 +5,8 @@ import { ToolBarButton } from '../../src/components/toolbar-button/ToolBarButton
 describe('ToolBarButton', () => {
 
   it('should render ToolBarButton', () => {
-    const toolBarButton = shallow(<ToolBarButton />)
-    expect(toolBarButton.find('button').html())
+    const toolBarButton = shallow(<ToolBarButton children='reset' />);
+    expect(toolBarButton.find('button').html());
   });
 
 });

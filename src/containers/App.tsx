@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { uploadImage } from '../redux/actions/uploadImage';
 import { Canvas } from './canvas/Canvas';
@@ -66,7 +67,7 @@ function mapStateToProps(state: StateFromProps) {
   };
 }
 
-function mapDispatchToProps(dispatch: any): DispatchFromProps {
+function mapDispatchToProps(dispatch: Dispatch): DispatchFromProps {
   return {
     dispatchImgSrc: (image: Image) => dispatch(uploadImage(image)),
   };
