@@ -35,6 +35,8 @@ interface CropAreaState {
 export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
 
   private croparea: HTMLElement;
+  private currentWidth: number = this.props.size.width;
+  private currentHeight: number = this.props.size.height;
 
   public constructor(props: CropAreaProps) {
     super(props);
@@ -68,15 +70,57 @@ export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
     }
   }
 
-  private onRulerDrag = (coords: Coords) => {
-    const offsetX = coords.x - this.state.left;
-    const offsetY = coords.y - this.state.top;
-    if (offsetX < this.props.size.width &&
-      offsetY < this.props.size.height &&
-      offsetX > 10 && offsetY > 10) {
+  private setCurrentWidthAndHeght = () => {
+    this.croparea.addEventListener('mousedown', () => {
+      this.currentWidth = this.state.width;
+      this.currentHeight = this.state.height;
+    }, true);
+  }
+
+  private onRulerDragTopLeft = (coords: Coords) => {
+    const topLeftInArea = coords.x >= 10 && coords.y >= 10;
+    const bottomRightInArea = coords.x <= this.props.size.width + 10 && coords.y <= this.props.size.height + 10;
+    if (topLeftInArea && bottomRightInArea) {
+      this.setState({
+        width: this.currentWidth - coords.deltaX - 10,
+        height: this.currentHeight - coords.y + 10,
+        top: coords.y,
+        left: coords.x,
+      });
+    }
+  }
+
+  private onRulerDragTopRight = (coords: Coords) => {
+    const topLeftInArea = coords.x >= 10 && coords.y >= 10;
+    const bottomRightInArea = coords.x <= this.props.size.width + 10 && coords.y <= this.props.size.height + 10;
+    if (topLeftInArea && bottomRightInArea) {
+      this.setState({
+        width: coords.x - this.state.left,
+        height: this.currentHeight - coords.y + 10,
+        top: coords.y,
+      });
+    }
+  }
+
+  private onRulerDragBottomRight = (coords: Coords) => {
+    const topLeftInArea = coords.x >= 10 && coords.y >= 10;
+    const bottomRightInArea = coords.x <= this.props.size.width + 10 && coords.y <= this.props.size.height + 10;
+    if (topLeftInArea && bottomRightInArea) {
       this.setState({
         width: coords.x - this.state.left,
         height: coords.y - this.state.top,
+      });
+    }
+  }
+
+  private onRulerDragBottomLeft = (coords: Coords) => {
+    const topLeftInArea = coords.x >= 10 && coords.y >= 10;
+    const bottomRightInArea = coords.x <= this.props.size.width + 10 && coords.y <= this.props.size.height + 10;
+    if (topLeftInArea && bottomRightInArea) {
+      this.setState({
+        width: this.currentWidth - coords.deltaX - 10,
+        height: coords.y - this.state.top,
+        left: coords.x,
       });
     }
   }
@@ -106,9 +150,21 @@ export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
       top: this.state.top,
       left: this.state.left,
     };
-    const rulerStyle = {
-      top: this.state.height,
-      left: this.state.width,
+    const topLeft = {
+      top: 0,
+      left: 0,
+    };
+    const topRight = {
+      top: 0,
+      left: this.state.width - 10,
+    };
+    const bottomRight = {
+      top: this.state.height - 10,
+      left: this.state.width - 10,
+    };
+    const bottomLeft = {
+      top: this.state.height - 10,
+      left: 0,
     };
 
     return (
@@ -118,10 +174,20 @@ export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
           <div className="crop-area"
             ref={(croparea) => this.croparea = croparea}
             role="presentation" hidden
-            style={areaStyle}>
+            style={areaStyle}
+            onMouseDown={this.setCurrentWidthAndHeght}>
             <CropAreaRuler
-              style={rulerStyle}
-              onDrag={this.onRulerDrag} />
+              style={topLeft}
+              onDrag={this.onRulerDragTopLeft} />
+            <CropAreaRuler
+              style={topRight}
+              onDrag={this.onRulerDragTopRight} />
+            <CropAreaRuler
+              style={bottomLeft}
+              onDrag={this.onRulerDragBottomLeft} />
+            <CropAreaRuler
+              style={bottomRight}
+              onDrag={this.onRulerDragBottomRight} />
           </div>
         </Draggable>
 

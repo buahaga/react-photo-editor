@@ -19,7 +19,7 @@ export class ToolBar extends React.Component<ToolBarProps> {
         <ToolBarButton disabled={this.props.isButtonActive} onClick={this.props.blurImage}>Blur</ToolBarButton>
         <ToolBarButton disabled={this.props.isButtonActive} onClick={this.props.greyScaleImage}>Greyscale</ToolBarButton>
         <ToolBarButton disabled={this.props.isButtonActive} onClick={this.props.highlightImage}>Highlight</ToolBarButton>
-        <ToolBarButton disabled={this.props.isButtonActive} onClick={this.props.cropImage}>Crop</ToolBarButton>
+        <ToolBarButton disabled={true} onClick={this.props.cropImage}>Crop</ToolBarButton>
         <ToolBarButton disabled={this.props.isButtonActive} onClick={this.props.resetImage}>&#10227;</ToolBarButton>
       </div>
     );
