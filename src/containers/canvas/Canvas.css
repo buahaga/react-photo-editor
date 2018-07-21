@@ -7,3 +7,10 @@
   border: 5px ridge lightgrey;
   cursor: pointer;
 }
+
+.rigth-toolbar {
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 10px;
+  width: 100px;
+}

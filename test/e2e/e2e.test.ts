@@ -24,6 +24,10 @@ describe('React-Photo-Editor_E2E', () => {
     await page.addScriptTag({ path: require.resolve('./mouseHighlighter') });
   });
 
+  test('Can draw with mousemove on canvas', async () => {
+    await dragElement(page, 50, 50, 150, 150);
+  });
+
   test('App loaded with empty fileInput', async () => {
     const selector = '.drop-area';
     const result = await page.$eval(selector, el => el.value);
@@ -44,7 +48,7 @@ describe('React-Photo-Editor_E2E', () => {
   });
 
   test('Before picture is uploaded toolBar is disabled', async () => {
-    const selector = '#crop';
+    const selector = '#blur';
     const disabled = await page.$eval(selector, el => el.disabled);
     expect(disabled).toBeTruthy();
   });
@@ -66,7 +70,7 @@ describe('React-Photo-Editor_E2E', () => {
   });
 
   test('After picture is uploaded toolBar is active', async () => {
-    const selector = '#crop';
+    const selector = '#blur';
     const disabled = await page.$eval(selector, el => el.disabled);
     expect(disabled).toBeFalsy();
   });
@@ -100,18 +104,18 @@ describe('React-Photo-Editor_E2E', () => {
     const selector = '.crop-ruler';
     const ruler = await page.$(selector);
     const { x, y } = await ruler.boundingBox();
-    await dragElement(page, x, y, -100, -100);
+    await dragElement(page, x, y, 100, 100);
     const result = await ruler.boundingBox();
-    expect(result.x).toBeLessThan(x);
+    expect(result.x).toBeGreaterThan(x);
   });
 
   test('CropArea position change on area drag', async () => {
     const selector = '.crop-area';
     const area = await page.$(selector);
     const { x, y } = await area.boundingBox();
-    await dragElement(page, x, y, 100, 100);
+    await dragElement(page, x, y, 50, 50);
     const result = await area.boundingBox();
-    expect(result.x).toBeGreaterThan(x);
+    expect(result.x).toBeLessThan(x);
   });
 
   test('After picture is uploaded canvas changing on click Reset', async () => {
@@ -132,6 +136,13 @@ describe('React-Photo-Editor_E2E', () => {
     const selector = '#clear';
     await page.waitForSelector(selector);
     await page.click(selector);
+  });
+
+  test('Can drop image from StuffToolBar on canvas', async () => {
+    const selector = '.firstimage';
+    const imageToDrag = await page.$(selector);
+    const { x, y } = await imageToDrag.boundingBox();
+    await dragElement(page, x, y, 150, 150);
   });
 
   afterAll(() => {

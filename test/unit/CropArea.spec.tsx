@@ -8,10 +8,8 @@ describe('CropArea', () => {
 
   beforeAll(() => {
     const mockSize = {
-      top: 10,
-      left: 10,
-      width: '600px',
-      height: '500px'
+      width: 600,
+      height: 500,
     };
     cropArea = mount(<CropArea size={mockSize} />);
   });

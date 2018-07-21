@@ -1,6 +1,6 @@
 .toolbar-btn {
   width: 100px;
   height: 30px;
-  margin: 10px;
+  margin: 0 10px 10px;
   cursor: pointer;
 }
