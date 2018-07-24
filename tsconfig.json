@@ -3,7 +3,7 @@
       "allowSyntheticDefaultImports": true,
       "jsx": "react",
       "module": "commonjs",
-      "target": "es5",
+      "target": "es6",
       "lib": ["es5", "es6", "es7", "dom"],
       "noImplicitAny": true,
       "outDir": "./build/",

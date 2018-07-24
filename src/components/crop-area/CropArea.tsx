@@ -1,21 +1,16 @@
 import * as React from 'react';
-import { ToolBar } from '../toolbar/ToolBar';
 import { CropAreaRuler } from '../crop-area-ruler/CropAreaRuler';
+import { CropToolBar } from '../crop-toolbar/CropToolBar';
 import { Draggable } from '../draggable/Draggable';
 import { Coords } from '../../interfaces/coords';
 import './CropArea.css';
 
 interface CropAreaProps {
-  onImageBlur: () => void;
-  onImageGreyScale: () => void;
-  onImageHighLight: () => void;
   onImageCrop: (rectangle: CropAreaPosition) => void;
-  onImageReset: () => void;
   size: {
     width: number;
     height: number;
   };
-  isToolBarActive: boolean;
 }
 
 interface CropAreaPosition {
@@ -79,7 +74,7 @@ export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
 
   private onRulerDragTopLeft = (coords: Coords) => {
     const topLeftInArea = coords.x >= 10 && coords.y >= 10;
-    const bottomRightInArea = coords.x <= this.props.size.width + 10 && coords.y <= this.props.size.height + 10;
+    const bottomRightInArea = coords.x <= this.props.size.width && coords.y <= this.props.size.height;
     if (topLeftInArea && bottomRightInArea) {
       this.setState({
         width: this.currentWidth - coords.deltaX - 10,
@@ -191,14 +186,9 @@ export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
           </div>
         </Draggable>
 
+        <CropToolBar onImageCrop={this.cropImage}/>
 
 
-        <ToolBar isButtonActive={this.props.isToolBarActive}
-          blurImage={this.props.onImageBlur}
-          greyScaleImage={this.props.onImageGreyScale}
-          highlightImage={this.props.onImageHighLight}
-          cropImage={this.cropImage}
-          resetImage={this.props.onImageReset} />
       </React.Fragment>
     );
   }

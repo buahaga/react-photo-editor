@@ -1,13 +1,13 @@
 .stuff-toolbar {
   display: block;
   width: 100px;
-  height: 180px;
+  height: 195px;
   margin-top: 10px;
-  padding-top: 10px;
+  padding-top: 5px;
   background-color: lightgrey;
 }
 
 .stuff-image {
   width: 80px;
-  margin: 0 10px;
+  margin: 0 12px;
 }

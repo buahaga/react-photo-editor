@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { ToolBar } from '../../components/toolbar/ToolBar';
 import { DrawToolBar } from '../../components/draw-toolbar/DrawToolBar';
 import { StuffToolBar } from '../../components/stuff-toolbar/StuffToolBar';
 import { CropArea } from '../../components/crop-area/CropArea';
@@ -13,13 +14,14 @@ interface CanvasProps {
 interface CanvasState {
   width: number;
   height: number;
-  isToolBarActive: boolean;
+  iDraw: boolean;
   lastX: number;
   lastY: number;
-  iDraw: boolean;
   color: string;
   size: number;
-  dragImageSrc: string;
+  iCrop: boolean;
+  iDrop: boolean;
+  dropImageSrc: string;
 }
 
 interface CropAreaPosition {
@@ -42,13 +44,14 @@ export class Canvas extends React.Component<CanvasProps> {
     this.state = {
       width: 600,
       height: 500,
-      isToolBarActive: false,
+      iDraw: false,
       lastX: 0,
       lastY: 0,
-      iDraw: false,
       color: 'red',
       size: 5,
-      dragImageSrc: '',
+      iCrop: false,
+      iDrop: false,
+      dropImageSrc: '',
     };
   }
 
@@ -61,7 +64,6 @@ export class Canvas extends React.Component<CanvasProps> {
     });
     this.canvas.addEventListener('mousemove', this.drawOnCanvas);
     this.canvas.addEventListener('mouseup', () => this.setState({ iDraw: false, }));
-    this.canvas.addEventListener('mouseout', () => this.setState({ iDraw: false, }));
   }
 
   public componentDidUpdate(prevProps: CanvasProps) {
@@ -69,7 +71,6 @@ export class Canvas extends React.Component<CanvasProps> {
     this.ctx.strokeStyle = this.state.color;
     if (this.props.image.name !== prevProps.image.name) {
       this.drawUploadedImage();
-      this.setState({ isToolBarActive: true, });
     }
   }
 
@@ -101,6 +102,7 @@ export class Canvas extends React.Component<CanvasProps> {
 
   private clearCanvas = () => {
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    this.setState({ dropImageSrc: '', });
   }
 
   private saveChanges = (imgData: ImageData) => {
@@ -129,6 +131,15 @@ export class Canvas extends React.Component<CanvasProps> {
     // link.setAttribute('href', image.src);
     // link.setAttribute('download', 'canvasImage');
     // link.click();
+  }
+
+  private setActiveToolbar = (toolBarName: string) => {
+    const toolbars = ['iDraw', 'iCrop', 'iDrop'];
+    this.setState({
+      iDraw: true,
+      iCrop: false,
+      iDrop: false,
+    });
   }
 
   //BOTTOM TOOLBAR HANDLERS
@@ -164,6 +175,7 @@ export class Canvas extends React.Component<CanvasProps> {
   private handleImageReset = () => {
     this.ctx.drawImage(this.imageBackUp, 0, 0, this.state.width, this.state.height);
     this.image = this.imageBackUp;
+    this.setState({ dropImageSrc: '', });
   }
 
   //DRAW TOOLBAR HANDLERS
@@ -179,17 +191,44 @@ export class Canvas extends React.Component<CanvasProps> {
 
   //STUFF TOOLBAR HANDLERS
   private handleImageDrag = (evt: string) => {
-    this.setState({ dragImageSrc: evt, });
+    const imgData = this.canvas.toDataURL();
+    this.setState({ dropImageSrc: evt, });
+    this.canvas.toBlob(() => {
+      const newImg = new Image();
+      newImg.src = imgData;
+      this.imageBackUp = newImg;
+    });
   }
 
   private handleImageDrop = (evt: DragEvent) => {
-    if (this.state.dragImageSrc) {
+    const image = new Image;
+    image.src = this.state.dropImageSrc;
+    this.ctx.drawImage(image, evt.clientX - image.width / 2, evt.clientY - image.height / 2);
+  }
+
+  //HANDLE DROPPEDIMAGE MOVE
+  private handleMouseDown = () => {
+    if (this.state.iDrop) {
+      this.ctx.drawImage(this.image, 0, 0, this.state.width, this.state.height);
+    }
+    //TODO CHANGE ACTIVE TOOLBAR BY CHECKBOX-SLIDER (iDraw, iCrop, iDrop)
+    this.setState({ iDraw: true, iDrop: true, });
+  }
+
+  private handleMouseUp = () => {
+    this.setState({ iDraw: false, iDrop: false, });
+  }
+
+  private handleMouseMove = (evt: any) => {
+    if (this.state.iDrop && this.state.dropImageSrc) {
       const image = new Image;
-      image.src = this.state.dragImageSrc;
-      this.ctx.drawImage(image, evt.clientX, evt.clientY);
-      this.setState({ dragImageSrc: '', });
+      image.src = this.state.dropImageSrc;
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.drawImage(this.imageBackUp, 0, 0);
+      this.ctx.drawImage(image, evt.clientX - image.width / 2, evt.clientY - image.height / 2);
     }
   }
+
 
   public render(): React.ReactNode {
     return (
@@ -198,28 +237,32 @@ export class Canvas extends React.Component<CanvasProps> {
         <canvas className="canvas"
           ref={(canvas) => this.canvas = canvas}
           width={this.state.width}
-          height={this.state.height} />
+          height={this.state.height}
+          onMouseDown={this.handleMouseDown}
+          onMouseMove={this.handleMouseMove}
+          onMouseUp={this.handleMouseUp} />
 
         <div className="rigth-toolbar">
           <DrawToolBar
             onColorChange={this.handleColorChange}
-            onSizeChange={this.handleSizeChange}
-            onClearCanvas={this.clearCanvas}
-            onSaveCanvas={this.saveCanvasToImage} />
+            onSizeChange={this.handleSizeChange} />
+
+          <CropArea
+            onImageCrop={this.handleImageCrop}
+            size={this.state} />
 
           <StuffToolBar
             onImageDrag={this.handleImageDrag}
             onImageDrop={this.handleImageDrop} />
         </div>
 
-        <CropArea
-          isToolBarActive={this.state.isToolBarActive}
+        <ToolBar
           onImageBlur={this.handleImageBlur}
           onImageGreyScale={this.handleImageGreyScale}
           onImageHighLight={this.handleImageHighlight}
-          onImageCrop={this.handleImageCrop}
           onImageReset={this.handleImageReset}
-          size={this.state} />
+          onClearCanvas={this.clearCanvas}
+          onSaveCanvas={this.saveCanvasToImage} />
 
       </React.Fragment>
     );
