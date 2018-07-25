@@ -1,9 +1,13 @@
 import * as React from 'react';
 import { ToolBarButton } from '../toolbar-button/ToolBarButton';
 import { CheckBoxSwitcher } from '../checkbox-switcher/CheckBoxSwitcher';
+import { iDraw } from '../../containers/canvas/Canvas';
 import './DrawToolBar.css';
 
 interface DrawToolBarProps {
+  isDrawActive: boolean;
+  setActiveToolBar: (toolbar: string | boolean) => void;
+  crayonSize: number;
   onColorChange: (color: string) => void;
   onSizeChange: (size: number) => void;
 }
@@ -12,29 +16,23 @@ export class DrawToolBar extends React.Component<DrawToolBarProps> {
 
   public render(): React.ReactNode {
 
-    const buttonStyle = {
-      display: 'block',
-      width: '80px',
-    };
-    const divStyle = {
-      width: '80px',
-      margin: '10px 10px 20px',
-    };
-    const sizeStyle = {
-      width: '40px',
-      margin: '0px',
-    };
+    const iDrawOnOff = this.props.isDrawActive ? false : iDraw;
+    const reduceOnOff = (this.props.crayonSize > 1 && this.props.isDrawActive) ? false : true;
+    const increaseOnOff = (this.props.crayonSize < 10 && this.props.isDrawActive) ? false : true;
 
     return (
       <div className="draw-toolbar">
-        <CheckBoxSwitcher />
-        <ToolBarButton buttonStyle={buttonStyle} onClick={() => this.props.onColorChange('red')}>Red</ToolBarButton>
-        <ToolBarButton buttonStyle={buttonStyle} onClick={() => this.props.onColorChange('green')}>Green</ToolBarButton>
-        <ToolBarButton buttonStyle={buttonStyle} onClick={() => this.props.onColorChange('blue')}>Blue</ToolBarButton>
-        <ToolBarButton buttonStyle={buttonStyle} onClick={() => this.props.onColorChange('yellow')}>Yellow</ToolBarButton>
-        <div style={divStyle}>
-          <ToolBarButton buttonStyle={sizeStyle} onClick={() => this.props.onSizeChange(-1)}>-</ToolBarButton>
-          <ToolBarButton buttonStyle={sizeStyle} onClick={() => this.props.onSizeChange(1)}>+</ToolBarButton>
+        <CheckBoxSwitcher
+          isChecked={this.props.isDrawActive}
+          onChange={() => this.props.setActiveToolBar(iDrawOnOff)}
+        />
+        <ToolBarButton disabled={!this.props.isDrawActive} onClick={() => this.props.onColorChange('red')}>Red</ToolBarButton>
+        <ToolBarButton disabled={!this.props.isDrawActive} onClick={() => this.props.onColorChange('green')}>Green</ToolBarButton>
+        <ToolBarButton disabled={!this.props.isDrawActive} onClick={() => this.props.onColorChange('blue')}>Blue</ToolBarButton>
+        <ToolBarButton disabled={!this.props.isDrawActive} onClick={() => this.props.onColorChange('yellow')}>Yellow</ToolBarButton>
+        <div>
+          <ToolBarButton buttonID='crayon-reduce' disabled={reduceOnOff} onClick={() => this.props.onSizeChange(-1)}>-</ToolBarButton>
+          <ToolBarButton buttonID='crayon-increase' disabled={increaseOnOff} onClick={() => this.props.onSizeChange(1)}>+</ToolBarButton>
         </div>
       </div>
     );

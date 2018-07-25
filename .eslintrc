@@ -6,7 +6,7 @@
     "typescript/react"
   ],
   "parser": "typescript-eslint-parser",
-  "plugins": ["jsx-a11y"],
+  "plugins": ["jsx-a11y", "react"],
   "parserOptions": {
     "ecmaVersion": 6,
     "sourceType": "module",
@@ -34,7 +34,9 @@
     "typescript/member-ordering": "off",
     "typescript/no-var-requires": "off",
     "allowExpressions": true,
+    "react/jsx-closing-bracket-location": [1, {"selfClosing": "line-aligned", nonEmpty: "after-props"}],
     "jsx-a11y/no-noninteractive-element-interactions": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
     "require-jsdoc": ["warn", {
     "require": {
         "FunctionDeclaration": false,

@@ -1,12 +1,8 @@
-.crop-ruler {
+.crop-handler {
   position: absolute;
   z-index: 100;
   width: 10px;
   height: 10px;
   background-color: red;
   cursor: move;
-}
-
-.crop-ruler.hidden {
-  display: none;
 }

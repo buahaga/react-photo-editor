@@ -1,17 +1,17 @@
 import * as React from 'react';
-import { Coords } from '../../interfaces/coords';
+import { DraggableEvent } from '../../interfaces/draggable-event';
 
 interface DraggableProps {
-  onDragStart: (coords: Partial<Coords>) => void;
-  onDrag: (coords: Coords) => void;
-  onDragEnd: (coords: Coords) => void;
+  onDragStart: (draggableEvent: Partial<DraggableEvent>) => void;
+  onDrag: (draggableEvent: DraggableEvent) => void;
+  onDragEnd: (draggableEvent: DraggableEvent) => void;
   children: JSX.Element;
 }
 
 export class Draggable extends React.Component<Partial<DraggableProps>> {
 
   private elem: HTMLElement;
-  private start: Partial<Coords>;
+  private start: Partial<DraggableEvent>;
 
   public static defaultProps: Partial<DraggableProps> = {
     onDragStart: () => { },

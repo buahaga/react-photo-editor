@@ -1,6 +1,6 @@
 .crop-area {
   position: absolute;
-  border: 3px dashed orange;
+  outline: 3px dashed orange;
   cursor: move;
 }
 

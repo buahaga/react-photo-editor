@@ -5,6 +5,7 @@ interface ToolBarButtonProps {
   children: string;
   onClick: () => void;
   disabled: boolean;
+  buttonID: string;
   buttonStyle: {
     display?: string;
     width?: string;
@@ -17,10 +18,8 @@ interface ToolBarButtonProps {
 export class ToolBarButton extends React.Component<Partial<ToolBarButtonProps>> {
 
   public render(): React.ReactNode {
-    const buttonID = this.props.children.charCodeAt(0) < 1000 ?
-      this.props.children.toLowerCase() :
-      btoa(this.props.children.charCodeAt(0).toString()).slice(0, -1).toLowerCase();
-    const isDisabled = this.props.disabled ? this.props.disabled : false;
+    const buttonID = this.props.buttonID ? this.props.buttonID : this.props.children.toLowerCase();
+    const isDisabled = this.props.disabled ? true : false;
 
     return (
       <button id={buttonID}

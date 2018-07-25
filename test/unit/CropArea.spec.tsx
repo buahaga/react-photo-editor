@@ -18,12 +18,12 @@ describe('CropArea', () => {
     expect(cropArea.find('.crop-area').exists()).toBe(true)
   });
 
-  it('should have CropAreaRuler inside', () => {
-    expect(cropArea.find('.crop-ruler').exists()).toBe(true)
+  it('should have CropAreaHandler inside', () => {
+    expect(cropArea.find('.crop-handler').exists()).toBe(true)
   });
 
   it('should have ToolaBar inside', () => {
-    expect(cropArea.find('.toolbar').exists()).toBe(true)
+    expect(cropArea.find('.crop-toolbar').exists()).toBe(true)
   });
 
 });

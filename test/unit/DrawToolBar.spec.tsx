@@ -11,12 +11,16 @@ describe('DrawToolBar', () => {
   });
 
   it('should render ToolBar', () => {
-    expect(toolBar.find('.draw-toolbar').html())
+    expect(toolBar.find('.draw-toolbar').html());
   });
 
-  it('should render 8 buttons', () => {
+  it('should render switch-slider on toolbar', () => {
+    expect(toolBar.find('.switch-slider').html());
+  });
+
+  it('should render 6 buttons', () => {
     const buttons = toolBar.find('button').length;
-    expect(buttons).toBe(8);
+    expect(buttons).toBe(6);
   });
 
 });

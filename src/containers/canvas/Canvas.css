@@ -1,10 +1,9 @@
-.hidden-image {
-  display: none;
+.canvas-relative {
+  position: relative;
 }
 
 .canvas {
-  position: relative;
-  border: 5px ridge lightgrey;
+  border: 1px ridge lightgrey;
   cursor: pointer;
 }
 

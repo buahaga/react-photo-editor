@@ -48,7 +48,7 @@ describe('React-Photo-Editor_E2E', () => {
   });
 
   test('Before picture is uploaded toolBar is disabled', async () => {
-    const selector = '#blur';
+    const selector = '#reset';
     const disabled = await page.$eval(selector, el => el.disabled);
     expect(disabled).toBeTruthy();
   });
@@ -75,7 +75,6 @@ describe('React-Photo-Editor_E2E', () => {
     expect(disabled).toBeFalsy();
   });
 
-  //TODO how to check changes from canvas
   test('After picture is uploaded canvas changing on click Blur', async () => {
     const selector = '#blur';
     await page.waitForSelector(selector);
@@ -100,12 +99,18 @@ describe('React-Photo-Editor_E2E', () => {
     await page.click(selector);
   });
 
+  test('You can activate Crop with click on switch', async () => {
+    const selector = '#icrop';
+    await page.waitForSelector(selector);
+    await page.click(selector);
+  });
+
   test('CropArea size change on cropRuler drag', async () => {
-    const selector = '.crop-ruler';
-    const ruler = await page.$(selector);
-    const { x, y } = await ruler.boundingBox();
+    const selector = '.crop-handler';
+    const handler = await page.$(selector);
+    const { x, y } = await handler.boundingBox();
     await dragElement(page, x, y, 100, 100);
-    const result = await ruler.boundingBox();
+    const result = await handler.boundingBox();
     expect(result.x).toBeGreaterThan(x);
   });
 
@@ -119,7 +124,7 @@ describe('React-Photo-Editor_E2E', () => {
   });
 
   test('After picture is uploaded canvas changing on click Reset', async () => {
-    const selector = '#mtaymjc';
+    const selector = '#reset';
     await page.waitForSelector(selector);
     await page.click(selector);
   });
@@ -138,7 +143,7 @@ describe('React-Photo-Editor_E2E', () => {
     await page.click(selector);
   });
 
-  test('Can drop image from StuffToolBar on canvas', async () => {
+  test('Can drop image from DropToolBar on canvas', async () => {
     const selector = '.firstimage';
     const imageToDrag = await page.$(selector);
     const { x, y } = await imageToDrag.boundingBox();

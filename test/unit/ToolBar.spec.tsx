@@ -14,9 +14,9 @@ describe('ToolBar', () => {
     expect(toolBar.find('.toolbar').html())
   });
 
-  it('should render 5 buttons', () => {
+  it('should render 6 buttons', () => {
     const buttons = toolBar.find('button').length;
-    expect(buttons).toBe(5);
+    expect(buttons).toBe(6);
   });
 
 });

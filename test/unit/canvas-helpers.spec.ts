@@ -1,4 +1,4 @@
-import { blur, greyscale, highlight} from '../../src/helpers/canvas-helpers';
+import { blur, greyscale, highlight, clamp} from '../../src/helpers/canvas-helpers';
 
 describe('canvasHelpers', () => {
   const imgData = {
@@ -24,5 +24,10 @@ describe('canvasHelpers', () => {
     const output = highlight(imgData).data;
     expect(output).toEqual(expected);
   });
+
+  it('should work clamp like a charm', () => {
+    const expected = 25;
+    expect(clamp(42,1,25)).toEqual(expected);
+  })
 
 });

@@ -1,3 +1,19 @@
 .toolbar {
   margin: 5px 0;
 }
+
+.toolbar button {
+  width: 90px;
+}
+
+#reset {
+  width: 30px;
+}
+
+#clear {
+  background-color: lightcoral;
+}
+
+#save {
+  background-color: lightblue;
+}

@@ -55,10 +55,12 @@ export class FileUploader extends React.Component<FileUploaderProps, FileUploade
           <div className="upload-progress">
             <div style={{ width: `${this.state.uploadProgress}%`, }} className="upload-progress-bar"></div>
           </div>
-          <input className="drop-area" ref={(dropzone) => this.dropZone = dropzone}
+          <input className="drop-area"
+            ref={(dropzone) => this.dropZone = dropzone}
             type="file" accept="image/jpg,image/jpeg,image/png"
             onDragEnter={this.isAreaHighLighted}
-            onChange={(evt) => this.onFileChange(evt.target.files)} />
+            onChange={(evt) => this.onFileChange(evt.target.files)}
+          />
         </label>
       </form>
     );

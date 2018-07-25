@@ -10,12 +10,16 @@ describe('DropToolBar', () => {
     toolBar = mount(<DropToolBar />);
   });
 
-  it('should render DropToolBar', () => {
-    expect(toolBar.find('.drop-toolbar').html())
+  it('should render CropToolBar', () => {
+    expect(toolBar.find('.drop-toolbar').html());
+  });
+
+  it('should render switch-slider on toolbar', () => {
+    expect(toolBar.find('.switch-slider').html());
   });
 
   it('should render 2 images', () => {
-    const buttons = toolBar.find('.stuff-image').length;
+    const buttons = toolBar.find('img').length;
     expect(buttons).toBe(2);
   });
 

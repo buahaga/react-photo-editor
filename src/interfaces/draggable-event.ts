@@ -1,4 +1,4 @@
-export interface Coords {
+export interface DraggableEvent {
   x: number;
   y: number;
   deltaX: number;

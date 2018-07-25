@@ -5,3 +5,20 @@
   height: 220px;
   background-color: lightgrey;
 }
+
+.draw-toolbar div {
+  width: 80px;
+  margin: 10px 10px 20px;
+}
+
+.draw-toolbar button {
+  display: block;
+  width: 80px;
+}
+
+#crayon-increase,
+#crayon-reduce {
+  display: inline-block;
+  width: 40px;
+  margin: 0;
+}
