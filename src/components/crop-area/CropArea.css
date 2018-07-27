@@ -1,9 +1,10 @@
 .crop-area {
   position: absolute;
-  outline: 3px dashed orange;
+  box-sizing: border-box;
+  border: 3px dashed orange;
   cursor: move;
 }
 
-.crop-area.hidden {
+.crop-area--hidden {
   display: none;
 }

@@ -34,7 +34,7 @@ interface CropAreaPosition {
   height: string;
 }
 
-export class Canvas extends React.Component<CanvasProps> {
+export class Canvas extends React.Component<CanvasProps, CanvasState> {
 
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;

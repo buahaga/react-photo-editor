@@ -22,7 +22,7 @@ export class FileUploader extends React.Component<FileUploaderProps, FileUploade
     };
   }
 
-  private onFileChange (fileList: FileList) {
+  private onFileChange(fileList: FileList) {
     this.setState({
       selectedFile: fileList[0],
       uploadProgress: 100,

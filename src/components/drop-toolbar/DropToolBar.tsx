@@ -25,11 +25,12 @@ export class DropToolBar extends React.Component<DropToolBarProps> {
     return (
       <div className="drop-toolbar">
         <CheckBoxSwitcher
+          switchID='idrop'
           isChecked={this.props.isDropActive}
           onChange={() => this.props.setActiveToolBar(iDropOnOff)}
         />
-        <img className="stuff-image firstimage" onDragStart={this.setImage} onDragEnd={this.drawImage} src="/src/images/anarchy.png" draggable alt="anarchy"/>
-        <img className="stuff-image" onMouseDown={this.setImage} onDragEnd={this.drawImage} src="/src/images/born-to-kill.png" draggable alt="born-to-kill"/>
+        <img className="stuff-image firstimage" onDragStart={this.setImage} onDragEnd={this.drawImage} src="/src/images/anarchy.png" draggable alt="anarchy" />
+        <img className="stuff-image" onMouseDown={this.setImage} onDragEnd={this.drawImage} src="/src/images/born-to-kill.png" draggable alt="born-to-kill" />
       </div>
     );
   }

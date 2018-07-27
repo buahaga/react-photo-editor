@@ -24,10 +24,6 @@ describe('React-Photo-Editor_E2E', () => {
     await page.addScriptTag({ path: require.resolve('./mouseHighlighter') });
   });
 
-  test('Can draw with mousemove on canvas', async () => {
-    await dragElement(page, 50, 50, 150, 150);
-  });
-
   test('App loaded with empty fileInput', async () => {
     const selector = '.drop-area';
     const result = await page.$eval(selector, el => el.value);
@@ -93,14 +89,29 @@ describe('React-Photo-Editor_E2E', () => {
     await page.click(selector);
   });
 
-  test('After picture is uploaded canvas changing on click Crop', async () => {
+  test('Before switcher Crop is active crop is disabled', async () => {
     const selector = '#crop';
-    await page.waitForSelector(selector);
-    await page.click(selector);
+    const disabled = await page.$eval(selector, el => el.disabled);
+    expect(disabled).toBeTruthy();
   });
 
   test('You can activate Crop with click on switch', async () => {
     const selector = '#icrop';
+    await page.waitForSelector(selector);
+    await page.click(selector);
+  });
+
+  test('CropArea position doesnt change on area drag if its size is eaqual to canvas', async () => {
+    const selector = '.crop-area';
+    const area = await page.$(selector);
+    const { x, y } = await area.boundingBox();
+    await dragElement(page, x + 20, y + 20, 50, 50);
+    const result = await area.boundingBox();
+    expect(result.x).toBe(x);
+  });
+
+  test('After picture is uploaded canvas changing on click Crop', async () => {
+    const selector = '#crop';
     await page.waitForSelector(selector);
     await page.click(selector);
   });
@@ -112,15 +123,6 @@ describe('React-Photo-Editor_E2E', () => {
     await dragElement(page, x, y, 100, 100);
     const result = await handler.boundingBox();
     expect(result.x).toBeGreaterThan(x);
-  });
-
-  test('CropArea position change on area drag', async () => {
-    const selector = '.crop-area';
-    const area = await page.$(selector);
-    const { x, y } = await area.boundingBox();
-    await dragElement(page, x, y, 50, 50);
-    const result = await area.boundingBox();
-    expect(result.x).toBeLessThan(x);
   });
 
   test('After picture is uploaded canvas changing on click Reset', async () => {
@@ -139,6 +141,44 @@ describe('React-Photo-Editor_E2E', () => {
 
   test('Canvas changing on click Clear', async () => {
     const selector = '#clear';
+    await page.waitForSelector(selector);
+    await page.click(selector);
+  });
+
+  test('Cannot draw or on canvas when switch is off', async () => {
+    await dragElement(page, 0, 0, 50, 50);
+  });
+
+  test('You can activate Draw with click on switch', async () => {
+    const selector = '#idraw';
+    await page.waitForSelector(selector);
+    await page.click(selector);
+  });
+
+  test('You can draw on canvas after draw is on', async () => {
+    await dragElement(page, 20, 20, 100, 100);
+  });
+
+  test('You can change crayon color on click', async () => {
+    const blue = '#blue';
+    await page.waitForSelector(blue);
+    await page.click(blue);
+    await dragElement(page, 50, 50, 100, 100);
+  });
+
+  test('You can change crayon size on click', async () => {
+    const size = '#crayon-increase';
+    await page.waitForSelector(size);
+    await page.click(size);
+    await page.click(size);
+    await page.click(size);
+    await page.click(size);
+    await page.click(size);
+    await dragElement(page, 150, 150, 300, 300);
+  });
+
+  test('You can activate Drop with click on switch', async () => {
+    const selector = '#idrop';
     await page.waitForSelector(selector);
     await page.click(selector);
   });

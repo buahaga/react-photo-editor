@@ -2,9 +2,9 @@ import * as React from 'react';
 import { DraggableEvent } from '../../interfaces/draggable-event';
 
 interface DraggableProps {
-  onDragStart: (draggableEvent: Partial<DraggableEvent>) => void;
-  onDrag: (draggableEvent: DraggableEvent) => void;
-  onDragEnd: (draggableEvent: DraggableEvent) => void;
+  onDragStart: (drag: Partial<DraggableEvent>) => void;
+  onDrag: (drag: DraggableEvent) => void;
+  onDragEnd: (drag: DraggableEvent) => void;
   children: JSX.Element;
 }
 

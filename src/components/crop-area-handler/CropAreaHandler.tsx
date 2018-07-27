@@ -5,7 +5,7 @@ import './CropAreaHandler.css';
 
 interface CropAreaHandlerProps {
   onMouseDown?: () => void;
-  onDrag: (draggableEvent: DraggableEvent) => void;
+  onDrag: (drag: DraggableEvent) => void;
   style: {
     top: number;
     left: number;

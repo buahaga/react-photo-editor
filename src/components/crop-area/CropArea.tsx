@@ -32,8 +32,7 @@ interface CropAreaState {
 export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
 
   private croparea: HTMLElement;
-  private currentWidth: number = this.props.size.width;
-  private currentHeight: number = this.props.size.height;
+  private position: CropAreaState;
 
   public constructor(props: CropAreaProps) {
     super(props);
@@ -46,80 +45,62 @@ export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
   }
 
   public componentDidUpdate(prevProps: CropAreaProps) {
-    //TODO maybe display here
-    this.props.isCropActive ? this.croparea.removeAttribute('hidden') : this.croparea.setAttribute('hidden', 'true');
     if (this.props.size.width !== prevProps.size.width || this.props.size.height !== prevProps.size.height) {
       this.setState({
         width: this.props.size.width,
         height: this.props.size.height,
       });
     }
+    if (this.props.isCropActive !== prevProps.isCropActive) {
+      this.croparea.classList.toggle('crop-area--hidden');
+    }
   }
 
-  private onCropAreaDrag = (draggableEvent: DraggableEvent) => {
-    const currentWidth = draggableEvent.deltaX + this.state.width;
-    const currentHeight = draggableEvent.deltaY + this.state.height;
-    if (currentWidth < this.props.size.width &&
-      currentHeight < this.props.size.height &&
-      draggableEvent.deltaX > 0 && draggableEvent.deltaY > 0) {
+  private onCropAreaDrag = (drag: DraggableEvent) => {
+    const maxMoveX = drag.deltaX > 0 && drag.deltaX < this.props.size.width;
+    const maxMoveY = drag.deltaY > 0 && drag.deltaY + this.state.height < this.props.size.height;
+    if (maxMoveX && maxMoveY) {
       this.setState({
-        top: draggableEvent.deltaY,
-        left: draggableEvent.deltaX,
+        top: drag.deltaY,
+        left: drag.deltaX,
       });
     }
   }
 
-  private onHandlerDragTopLeft = (draggableEvent: DraggableEvent) => {
-    const topLeftInArea = draggableEvent.x >= 0 && draggableEvent.y >= 0;
-    const bottomRightInArea = draggableEvent.x <= this.props.size.width && draggableEvent.y <= this.props.size.height;
-    if (topLeftInArea && bottomRightInArea) {
-      this.setState({
-        width: this.currentWidth - draggableEvent.deltaX,
-        height: this.currentHeight - draggableEvent.y,
-        top: draggableEvent.y,
-        left: draggableEvent.x,
-      });
-    }
+  private onHandlerDragTopLeft = (drag: DraggableEvent) => {
+    this.setState({
+      width: this.position.width - drag.deltaX,
+      height: this.position.height - drag.deltaY,
+      left: this.position.left + drag.deltaX,
+      top: this.position.top + drag.deltaY,
+    });
   }
 
-  private onHandlerDragTopRight = (draggableEvent: DraggableEvent) => {
-    const topLeftInArea = draggableEvent.x >= 0 && draggableEvent.y >= 0;
-    const bottomRightInArea = draggableEvent.x <= this.props.size.width && draggableEvent.y <= this.props.size.height;
-    if (topLeftInArea && bottomRightInArea) {
-      this.setState({
-        width: draggableEvent.x - this.state.left,
-        height: this.currentHeight - draggableEvent.y,
-        top: draggableEvent.y,
-      });
-    }
+  private onHandlerDragTopRight = (drag: DraggableEvent) => {
+    this.setState({
+      width: this.position.width + drag.deltaX,
+      height: this.position.height - drag.deltaY,
+      top: this.position.top + drag.deltaY,
+    });
   }
 
-  private onHandlerDragBottomRight = (draggableEvent: DraggableEvent) => {
-    const topLeftInArea = draggableEvent.x >= 0 && draggableEvent.y >= 0;
-    const bottomRightInArea = draggableEvent.x <= this.props.size.width && draggableEvent.y <= this.props.size.height;
-    if (topLeftInArea && bottomRightInArea) {
-      this.setState({
-        width: draggableEvent.x - this.state.left,
-        height: draggableEvent.y - this.state.top,
-      });
-    }
+  private onHandlerDragBottomRight = (drag: DraggableEvent) => {
+    this.setState({
+      width: this.position.width + drag.deltaX,
+      height: this.position.height + drag.deltaY,
+    });
   }
 
-  private onHandlerDragBottomLeft = (draggableEvent: DraggableEvent) => {
-    const topLeftInArea = draggableEvent.x >= 0 && draggableEvent.y >= 0;
-    const bottomRightInArea = draggableEvent.x <= this.props.size.width && draggableEvent.y <= this.props.size.height;
-    if (topLeftInArea && bottomRightInArea) {
-      this.setState({
-        width: this.currentWidth - draggableEvent.deltaX,
-        height: draggableEvent.y - this.state.top,
-        left: draggableEvent.x,
-      });
-    }
+  private onHandlerDragBottomLeft = (drag: DraggableEvent) => {
+    this.setState({
+      width: this.position.width - drag.deltaX,
+      height: this.position.height + drag.deltaY,
+      left: this.position.left + drag.deltaX,
+    });
   }
 
-  private getAreaCurrentSize = () => {
-    this.currentWidth = this.state.width;
-    this.currentHeight = this.state.height;
+  private setAreaPosition = () => {
+    this.position = this.state;
   }
 
   private cropImage = () => {
@@ -148,52 +129,52 @@ export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
       left: this.state.left,
     };
     const topLeft = {
-      top: 0,
-      left: 0,
+      top: this.state.top,
+      left: this.state.left,
     };
     const topRight = {
-      top: 0,
-      left: this.state.width - handlerSize,
+      top: this.state.top,
+      left: this.state.left + this.state.width - handlerSize,
     };
     const bottomRight = {
-      top: this.state.height - handlerSize,
-      left: this.state.width - handlerSize,
+      top: this.state.top + this.state.height - handlerSize,
+      left: this.state.left + this.state.width - handlerSize,
     };
     const bottomLeft = {
-      top: this.state.height - handlerSize,
-      left: 0,
+      top: this.state.top + this.state.height - handlerSize,
+      left: this.state.left,
     };
 
     return (
       <React.Fragment>
 
-        <Draggable
-          onDrag={this.onCropAreaDrag}>
-          <div className="crop-area"
-            ref={(croparea) => this.croparea = croparea}
-            role="presentation" hidden
-            style={areaStyle}>
-            <CropAreaHandler
-              style={topLeft}
-              onMouseDown={this.getAreaCurrentSize}
-              onDrag={this.onHandlerDragTopLeft}
-            />
-            <CropAreaHandler
-              style={topRight}
-              onMouseDown={this.getAreaCurrentSize}
-              onDrag={this.onHandlerDragTopRight}
-            />
-            <CropAreaHandler
-              style={bottomLeft}
-              onMouseDown={this.getAreaCurrentSize}
-              onDrag={this.onHandlerDragBottomLeft}
-            />
-            <CropAreaHandler
-              style={bottomRight}
-              onDrag={this.onHandlerDragBottomRight}
-            />
-          </div>
-        </Draggable>
+        <div className="crop-area--hidden"
+          role="presentation"
+          ref={(croparea) => this.croparea = croparea}>
+          <Draggable onDrag={this.onCropAreaDrag}>
+            <div className="crop-area" style={areaStyle}></div>
+          </Draggable>
+          <CropAreaHandler
+            style={topLeft}
+            onMouseDown={this.setAreaPosition}
+            onDrag={this.onHandlerDragTopLeft}
+          />
+          <CropAreaHandler
+            style={topRight}
+            onMouseDown={this.setAreaPosition}
+            onDrag={this.onHandlerDragTopRight}
+          />
+          <CropAreaHandler
+            style={bottomLeft}
+            onMouseDown={this.setAreaPosition}
+            onDrag={this.onHandlerDragBottomLeft}
+          />
+          <CropAreaHandler
+            style={bottomRight}
+            onMouseDown={this.setAreaPosition}
+            onDrag={this.onHandlerDragBottomRight}
+          />
+        </div>
 
         <CropToolBar
           onImageCrop={this.cropImage}

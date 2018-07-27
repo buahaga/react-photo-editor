@@ -23,6 +23,7 @@ export class DrawToolBar extends React.Component<DrawToolBarProps> {
     return (
       <div className="draw-toolbar">
         <CheckBoxSwitcher
+          switchID='idraw'
           isChecked={this.props.isDrawActive}
           onChange={() => this.props.setActiveToolBar(iDrawOnOff)}
         />
