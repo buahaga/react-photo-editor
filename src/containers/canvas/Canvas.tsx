@@ -7,7 +7,7 @@ import { blur, greyscale, highlight, clamp } from '../../helpers/canvas-helpers'
 import { Image } from '../../interfaces/image';
 import './Canvas.css';
 
-export const iDraw = 'iDraw', iCrop = 'iCrop', iDrop = 'iDrop';
+export const DrawActive = 'DrawActive', CropActive = 'CropActive', DropActive = 'DropActive';
 
 interface CanvasProps {
   image: Partial<Image>;
@@ -17,13 +17,13 @@ interface CanvasState {
   width: number;
   height: number;
   motionOn: boolean;
-  iDraw: boolean;
+  DrawActive: boolean;
   startX: number;
   startY: number;
   color: string;
   size: number;
-  iCrop: boolean;
-  iDrop: boolean;
+  CropActive: boolean;
+  DropActive: boolean;
   dropImageSrc: string | null;
 }
 
@@ -48,13 +48,13 @@ export class Canvas extends React.Component<CanvasProps, CanvasState> {
       width: 600,
       height: 500,
       motionOn: false,
-      iDraw: false,
+      DrawActive: false,
       startX: 0,
       startY: 0,
       color: 'red',
       size: 5,
-      iCrop: false,
-      iDrop: false,
+      CropActive: false,
+      DropActive: false,
       dropImageSrc: null,
     };
   }
@@ -117,17 +117,17 @@ export class Canvas extends React.Component<CanvasProps, CanvasState> {
 
   private setActiveToolbar = (activeToolBar: string | boolean) => {
     switch (activeToolBar) {
-      case iDraw:
-        this.setState({ iDraw: true, iCrop: false, iDrop: false, });
+      case DrawActive:
+        this.setState({ DrawActive: true, CropActive: false, DropActive: false, });
         break;
-      case iCrop:
-        this.setState({ iDraw: false, iCrop: true, iDrop: false, });
+      case CropActive:
+        this.setState({ DrawActive: false, CropActive: true, DropActive: false, });
         break;
-      case iDrop:
-        this.setState({ iDraw: false, iCrop: false, iDrop: true, });
+      case DropActive:
+        this.setState({ DrawActive: false, CropActive: false, DropActive: true, });
         break;
       default:
-        this.setState({ iDraw: false, iCrop: false, iDrop: false, });
+        this.setState({ DrawActive: false, CropActive: false, DropActive: false, });
     }
   }
 
@@ -188,7 +188,7 @@ export class Canvas extends React.Component<CanvasProps, CanvasState> {
 
   //DROP TOOLBAR HANDLERS
   private handleImageDrag = (evt: string) => {
-    if (this.state.iDrop) {
+    if (this.state.DropActive) {
       const imgData = this.canvas.toDataURL();
       this.setState({ dropImageSrc: evt, });
       this.canvas.toBlob(() => {
@@ -200,7 +200,7 @@ export class Canvas extends React.Component<CanvasProps, CanvasState> {
   }
 
   private handleImageDrop = (evt: React.DragEvent<HTMLImageElement>) => {
-    if (this.state.iDrop) {
+    if (this.state.DropActive) {
       const image = new Image;
       image.src = this.state.dropImageSrc;
       this.ctx.drawImage(image, evt.clientX - image.width / 2, evt.clientY - image.height / 2);
@@ -224,9 +224,9 @@ export class Canvas extends React.Component<CanvasProps, CanvasState> {
 
   private handleMouseMove = (evt: React.MouseEvent<HTMLCanvasElement>) => {
     if (this.state.motionOn) {
-      if (this.state.iDrop) {
+      if (this.state.DropActive) {
         this.handleImageMove(evt);
-      } else if (this.state.iDraw) {
+      } else if (this.state.DrawActive) {
         this.drawOnCanvas(evt);
       } else {
         return;
@@ -253,20 +253,20 @@ export class Canvas extends React.Component<CanvasProps, CanvasState> {
 
         <div className="rigth-toolbar">
           <DrawToolBar
-            isDrawActive={this.state.iDraw}
+            isDrawActive={this.state.DrawActive}
             setActiveToolBar={this.setActiveToolbar}
             crayonSize={this.state.size}
             onColorChange={this.handleColorChange}
             onSizeChange={this.handleSizeChange}
           />
           <CropArea
-            isCropActive={this.state.iCrop}
+            isCropActive={this.state.CropActive}
             setActiveToolBar={this.setActiveToolbar}
             onImageCrop={this.handleImageCrop}
             size={this.state}
           />
           <DropToolBar
-            isDropActive={this.state.iDrop}
+            isDropActive={this.state.DropActive}
             setActiveToolBar={this.setActiveToolbar}
             onImageDrag={this.handleImageDrag}
             onImageDrop={this.handleImageDrop}

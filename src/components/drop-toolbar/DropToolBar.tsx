@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { CheckBoxSwitcher } from '../checkbox-switcher/CheckBoxSwitcher';
-import { iDrop } from '../../containers/canvas/Canvas';
+import { DropActive } from '../../containers/canvas/Canvas';
 import './DropToolBar.css';
 
 interface DropToolBarProps {
@@ -21,13 +21,13 @@ export class DropToolBar extends React.Component<DropToolBarProps> {
   }
 
   public render(): React.ReactNode {
-    const iDropOnOff = this.props.isDropActive ? false : iDrop;
+    const DropActiveOnOff = this.props.isDropActive ? false : DropActive;
     return (
       <div className="drop-toolbar">
         <CheckBoxSwitcher
           switchID='idrop'
           isChecked={this.props.isDropActive}
-          onChange={() => this.props.setActiveToolBar(iDropOnOff)}
+          onChange={() => this.props.setActiveToolBar(DropActiveOnOff)}
         />
         <img className="stuff-image firstimage" onDragStart={this.setImage} onDragEnd={this.drawImage} src="/src/images/anarchy.png" draggable alt="anarchy" />
         <img className="stuff-image" onMouseDown={this.setImage} onDragEnd={this.drawImage} src="/src/images/born-to-kill.png" draggable alt="born-to-kill" />

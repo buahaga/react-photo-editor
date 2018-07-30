@@ -3,6 +3,7 @@ import { CropAreaHandler } from '../crop-area-handler/CropAreaHandler';
 import { CropToolBar } from '../crop-toolbar/CropToolBar';
 import { Draggable } from '../draggable/Draggable';
 import { DraggableEvent } from '../../interfaces/draggable-event';
+import { clamp } from '../../helpers/canvas-helpers';
 import './CropArea.css';
 
 interface CropAreaProps {
@@ -57,14 +58,12 @@ export class CropArea extends React.Component<CropAreaProps, CropAreaState> {
   }
 
   private onCropAreaDrag = (drag: DraggableEvent) => {
-    const maxMoveX = drag.deltaX > 0 && drag.deltaX < this.props.size.width;
-    const maxMoveY = drag.deltaY > 0 && drag.deltaY + this.state.height < this.props.size.height;
-    if (maxMoveX && maxMoveY) {
-      this.setState({
-        top: drag.deltaY,
-        left: drag.deltaX,
-      });
-    }
+    const newTop = clamp(drag.deltaY + this.state.height, 0, this.props.size.height) - this.state.height;
+    const newLeft = clamp(drag.deltaX + this.state.width, 0, this.props.size.width) - this.state.width;
+    this.setState({
+      top: newTop,
+      left: newLeft,
+    });
   }
 
   private onHandlerDragTopLeft = (drag: DraggableEvent) => {
